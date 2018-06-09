@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Fang Zhu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Fang Zhu">
+    <meta name="keywords" content="Fang's Blog | Fang Zhu">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Start with Hexo · Fang&#39;s Blog.</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180604 as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= /css/mobile.css?v=20180604 media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.png" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search for Posts","hits_empty":"We did not find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}')
+
+            var algolia = {
+                applicationID: 'RAYFW1FY59',
+                apiKey: '61893b83215905941c8282190ff7cd08',
+                indexName: 'FangBlog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
+<script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Fang&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Start with Hexo</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Fang's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style=
+
+
+
+
+
+
+
+
+height:50vh;
+
+>
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/images/Start.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Start with Hexo
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Hexo">Hexo</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Webpage Design">Webpage Design</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">1,171</span> / Reading time: <span class="post-count">7 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/06/08</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js",
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+
+  //iframe automatically changing
+  function iFrameHeight() {
+    var ifm= document.getElementById("iframepage");
+    var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;
+    if(ifm != null && subWeb != null) {
+       ifm.height = subWeb.body.scrollHeight;
+       ifm.width = subWeb.body.scrollWidth;
+    }
+  }
+</script>
+
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <div class="abstract"><br>  <img style="max-width:100%; overflow:hidden" src="/images/hexo.jpg" alt=""><br></div>
+
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract:"></a>Abstract:</h2><p>This is my first blog, thanks to the toolkits of <b>Hexo</b> helpping me reduce large amount of time and energy for studying and searching. This blog is to conclude the function and tools that I need to use for developing my future blogs. In breif, the tutorial starts with basic ways of using <b>Markdown</b> and html language for beautifying the webpages, functions used under the frameworks of the <b>Hexo</b> and some plugins that can improve the type of media for the expression. Finally the reference of the source I might use and copyright might involve will be put in the end of the articles.</p>
+<a id="more"></a>
+<h2 id="Announcement"><a href="#Announcement" class="headerlink" title="Announcement:"></a>Announcement:</h2><p>This is my first blog to record interesting things and the new cool things I studied recently. Everything I put on my blog may include objects of mine or others. (I will assign the author and the link at the end of the articals) These thoughts and objections may not right and may only represent my personal view. So, if there exist something not so well or even worse, please let me know in the comment area.</p>
+<h2 id="Markdown-basic"><a href="#Markdown-basic" class="headerlink" title="Markdown basic:"></a>Markdown basic:</h2><h3 id="1-Title"><a href="#1-Title" class="headerlink" title="1. Title:"></a>1. Title:</h3><p>There are two ways to write the title, Atx and Setext:</p>
+<ul>
+<li>Atx</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># first title</span><br><span class="line">## second title</span><br><span class="line">### third title</span><br><span class="line">#### forth title</span><br><span class="line">##### fifth title</span><br><span class="line">###### sixth title</span><br></pre></td></tr></table></figure>
+<p>effect:<br><img src="/images/effect1.png" alt="effect1"></p>
+<p><br></p>
+<ul>
+<li>Setext</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">first title</span><br><span class="line">======</span><br><span class="line"></span><br><span class="line">second title</span><br><span class="line">------</span><br></pre></td></tr></table></figure>
+<p>effect:<br><img src="/images/effect2.png" alt="effect2"><br><br></p>
+<h3 id="2-font-format-and-paragragh-structure"><a href="#2-font-format-and-paragragh-structure" class="headerlink" title="2. font format and paragragh structure:"></a>2. font format and paragragh structure:</h3><p>Including bold, Italic, delete line, newline, dividing line, indent ,disordered list and the link. The code is as follow:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">// 1. bold font</span><br><span class="line">**word**</span><br><span class="line">__word__</span><br><span class="line">&lt;b&gt;word&lt;/b&gt;</span><br><span class="line"></span><br><span class="line">// 2. Italic font</span><br><span class="line">*word*</span><br><span class="line">_word_</span><br><span class="line">&lt;i&gt;word&lt;/i&gt;</span><br><span class="line"></span><br><span class="line">// 4. delete line</span><br><span class="line">~~word~~</span><br><span class="line">&lt;del&gt;word&lt;/del&gt;</span><br><span class="line"></span><br><span class="line">// 5. Italic and bold font</span><br><span class="line">_**word**_</span><br><span class="line"></span><br><span class="line">// 3. newline, click enter twice, click space or:</span><br><span class="line">&lt;br /&gt;</span><br><span class="line"></span><br><span class="line">// 4. dividing line</span><br><span class="line">&lt;h3 id=&quot;hr&quot;&gt;the line&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">// 5. indent:</span><br><span class="line">&gt;sentence of 1 indent</span><br><span class="line">&gt;&gt;sentence of 2 indent</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">// 6. disordered list:</span><br><span class="line">&lt;h4 id=&quot;disorderlist&quot;&gt;the list&lt;/h4&gt;</span><br><span class="line">* list 1</span><br><span class="line">* list 2</span><br><span class="line"></span><br><span class="line">// 7. the link:</span><br><span class="line">[Writing](url)</span><br></pre></td></tr></table></figure>
+<h3 id="3-content-and-table"><a href="#3-content-and-table" class="headerlink" title="3. content and table:"></a>3. content and table:</h3><p>The code is as follow:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// content</span><br><span class="line"> &lt;h1 id=&quot;title1&quot;&gt;title1&lt;/h1&gt; //sign the title1</span><br><span class="line"> [the name of title1](#title1) //jump to the title 1</span><br><span class="line"></span><br><span class="line">// table, every font of the element inside can be adjust as bold, italic and etc.</span><br><span class="line">title 1|title 2|title 3</span><br><span class="line">---|---|--- //make a line to divide the table and</span><br><span class="line">content 1|content 2|content 3</span><br><span class="line">content 4|content 5|content 6</span><br></pre></td></tr></table></figure>
+<p>effect of the table:</p>
+<table>
+<thead>
+<tr>
+<th>title 1</th>
+<th>title 2</th>
+<th>title 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>content 1</td>
+<td>content 2</td>
+<td>content 3</td>
+</tr>
+<tr>
+<td>content 4</td>
+<td>content 5</td>
+<td>content 6</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<h3 id="4-Others"><a href="#4-Others" class="headerlink" title="4. Others:"></a>4. Others:</h3><p>This part will present how to insert image, video and music.</p>
+<p><br></p>
+<h4 id="Image"><a href="#Image" class="headerlink" title="Image:"></a>Image:</h4><p>there are two ways to insert.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[Writing](url)// first</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;abstract&quot;&gt;</span><br><span class="line">  &lt;img style=&quot;max-width:100%; overflow:hidden&quot; src=&quot;/images/hexo.jpg&quot; alt=&quot;&quot; /&gt;</span><br><span class="line">&lt;/div&gt; // second: &quot;div&quot; is used to keep the image inside the border, the &quot;max-width&quot; control the size, the &quot;overflow&quot; is used control whether to hide the border or not, &quot;src&quot; means the url.</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/wallhaven.jpg" alt="image test"><br><em>The picture wall heaven.</em><br><br></p>
+<h4 id="video"><a href="#video" class="headerlink" title="video:"></a>video:</h4><p>There are three ways to insert video, the first is the special plugin for youtube video, the second one is used to deal with local(cloud) video, and the last one is for the normal other types of videos for all types of online video. The code is as follow.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;% youtube youtube_id %&#125;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;video&quot;&gt;</span><br><span class="line">  &lt;video id=&quot;video&quot; width=&quot;#&quot; height=&quot;#&quot; controls=&quot;&quot; preload=&quot;none&quot; poster=&quot;url for the video poster&quot;&gt;</span><br><span class="line">    &lt;source id=&quot;id name&quot; src=&quot;url for the video address&quot; type=&quot;video/mp4(type of video)&quot;&gt;</span><br><span class="line">  &lt;/video&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;iframe</span><br><span class="line">    height=#</span><br><span class="line">    width=#</span><br><span class="line">    src=&quot;url&quot;</span><br><span class="line">    frameborder=0</span><br><span class="line">    allowfullscreen&gt;</span><br><span class="line">&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<p>There is another plugin for playing online youku video. Here are several steps to do to use the plugin.</p>
+<ul>
+<li><ol>
+<li>First install the <em><strong>hexo-tag-youku</strong></em> plugin in git bash under the folder of the Hexo:</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-tag-youku --save</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol start="2">
+<li>add the youku video as follow:</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% youku height width %&#125;</span><br><span class="line">youku_id</span><br><span class="line">&#123;% endyouku %&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<p>Effects of video playing is shown as follow.</p>
+<div class="abstract"><br>  <img style="max-width:100%; overflow:hidden" src="/images/hexo.jpg" alt=""><br></div>
+
+<ul>
+<li><ol>
+<li>youtube plugin.<br><br><div class="video-container"><iframe src="//www.youtube.com/embed/Ud1xAhu7t2Y" frameborder="0" allowfullscreen></iframe></div>
+</li>
+</ol>
+</li>
+</ul>
+<p><br></p>
+<ul>
+<li><ol start="2">
+<li>video player for cloud/local video.</li>
+</ol>
+</li>
+</ul>
+<div class="video1"><br>  <video id="video" style="max-width:100%; overflow:hidden" controls preload="none" poster="http://media.w3.org/2010/05/sintel/poster.png"><br>    <source id="mp4" src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4"><br>  </video><br></div>
+
+<p><br></p>
+<ul>
+<li><ol start="3">
+<li>iframe for all types of videos.</li>
+</ol>
+</li>
+</ul>
+<iframe height="225" width="400" src="https://v.youku.com/v_show/id_XMjg5MTI4MTYyNA==.html?spm=a2h0k.11417342.soresults.dtitle" frameborder="0" allowfullscreen><br></iframe>
+
+
+<p><br></p>
+<ul>
+<li><ol start="4">
+<li>iframe for youku videos.<br><br><iframe height="160" width="240" src="http://player.youku.com/embed/XMjg5MTI4MTYyNA" frameborder="0" allowfullscreen></iframe>
+</li>
+</ol>
+</li>
+</ul>
+<p><br><br>p.s. Inorder to make the image and video player changing automatically to ensure different size of windows, we add this instead of real width and height. (Only useful for the some of video html clip and img html clip)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">style=&quot;max-width:100%; overflow:hidden&quot;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="music"><a href="#music" class="headerlink" title="music"></a>music</h4><p>There is a plugin for playing music. Here are several steps to do to use the plugin.</p>
+<ul>
+<li><ol>
+<li>First install the <em><strong>hexo-tag-aplayer</strong></em> plugin in git bash under the folder of the Hexo:</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-tag-aplayer</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol start="2">
+<li>add the music as follow:</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% aplayer title author url [picture_url, narrow, autoplay, width:xxx, lrc:xxx] %&#125;</span><br></pre></td></tr></table></figure>
+<p><br><br>
+        <div id="aplayer-TtXFHKOM" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+            <pre class="aplayer-lrc-content"></pre>
+        </div>
+        <script>
+          var ap = new APlayer({
+            element: document.getElementById("aplayer-TtXFHKOM"),
+            narrow: false,
+            autoplay: false,
+            showlrc: false,
+            music: {
+              title: "Kass Theme",
+              author: "Nintendo",
+              url: "/others/Kass Theme.mp3",
+              pic: "/images/Zelda Ost.jpg",
+              lrc: ""
+            }
+          });
+          window.aplayers || (window.aplayers = []);
+          window.aplayers.push(ap);
+        </script><br><em>Kass theme from Zelda Breath of Wild Ost</em></p>
+<p><br></p>
+<h2 id="import-operations-in-Hexo"><a href="#import-operations-in-Hexo" class="headerlink" title="import operations in Hexo:"></a>import operations in Hexo:</h2><p><br></p>
+<h3 id="normal-operations"><a href="#normal-operations" class="headerlink" title="normal operations:"></a>normal operations:</h3><ul>
+<li><ol>
+<li>First we need to have a github repository.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Then we need to install the Hexo under the folder.</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># install hexo</span><br><span class="line">npm install hexo-cli g</span><br><span class="line"># init the blog folder</span><br><span class="line">hexo init blog</span><br><span class="line"># enter the blog folder</span><br><span class="line">cd blog</span><br><span class="line"># install npm</span><br><span class="line">npm install</span><br><span class="line"># install some plugins</span><br><span class="line">npm install hexo-server --save</span><br><span class="line">npm install hexo-admin --save</span><br><span class="line">npm install hexo-generator-archive --save</span><br><span class="line">npm install hexo-generator-feed --save</span><br><span class="line">npm install hexo-generator-search --save</span><br><span class="line">npm install hexo-generator-tag --save</span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-generator-sitemap --save</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol start="3">
+<li>generate the local server:</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># create the static webpages</span><br><span class="line">hexo generate</span><br><span class="line"># open the server</span><br><span class="line">hexo server</span><br><span class="line"></span><br><span class="line"># If the server 4000 does not repond, make some change as follow.</span><br><span class="line">hexo s -p 4001</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol start="4">
+<li>build a new Markdown file for a new blog:</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;name&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol start="5">
+<li>deploy the hexo bolg to the github.<br>adjust the _<strong>blog/_config.yml</strong>_ file as follow:</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs:</span><br><span class="line">deploy:</span><br><span class="line">  # types</span><br><span class="line">  type: git</span><br><span class="line">  # repository</span><br><span class="line">  repo: git@github.com:name/name.github.io.git</span><br><span class="line">  # branch</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol start="6">
+<li>deploy the blog to the github.</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># clean the static webpage</span><br><span class="line">hexo clean</span><br><span class="line"># generate static page</span><br><span class="line">hexo generate</span><br><span class="line"># deploy blog</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h3><ul>
+<li><b>[1]: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">https://hexo.io/docs/writing.html</a></b></li>
+<li><b>[2]: <a href="https://www.jianshu.com/p/2c9f0b3b2b0e" target="_blank" rel="noopener">https://www.jianshu.com/p/2c9f0b3b2b0e</a></b></li>
+<li><b>[3]: <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="noopener">https://github.com/fi3ework/hexo-theme-archer</a></b></li>
+<li><b>[4]: <a href="https://www.jianshu.com/p/0130ad32a08d" target="_blank" rel="noopener">https://www.jianshu.com/p/0130ad32a08d</a></b></li>
+<li><b>[5]: <a href="https://www.youtube.com/watch?v=Ud1xAhu7t2Y&amp;list=PLXbU-2B80FvDjD_RiuNwsSQ4eF8pkwAIa&amp;index=1" target="_blank" rel="noopener">https://www.youtube.com/watch?v=Ud1xAhu7t2Y&amp;list=PLXbU-2B80FvDjD_RiuNwsSQ4eF8pkwAIa&amp;index=1</a></b></li>
+<li><b>[6]: <a href="https://blog.csdn.net/huwei2003/article/details/52523407" target="_blank" rel="noopener">https://blog.csdn.net/huwei2003/article/details/52523407</a></b></li>
+<li><b>[7]: <a href="https://www.jianshu.com/p/6e41e3191963" target="_blank" rel="noopener">https://www.jianshu.com/p/6e41e3191963</a></b></li>
+<li><b>[8]: <a href="https://segmentfault.com/q/1010000000424925/a-1020000007644640" target="_blank" rel="noopener">https://segmentfault.com/q/1010000000424925/a-1020000007644640</a></b></li>
+<li><b>[9]: <a href="https://blog.csdn.net/q_qtowerq_q/article/details/78565166" target="_blank" rel="noopener">https://blog.csdn.net/q_qtowerq_q/article/details/78565166</a><br><br></b></li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Author: <a href="http://www.zhufang8.com">Fang Zhu</a>
+            <p>Link: <a href="http://www.zhufang8.com/2018/06/08/Start-up/">http://www.zhufang8.com/2018/06/08/Start-up/</a>
+            <p>Publishing date: <a href="http://www.zhufang8.com/2018/06/08/Start-up/">June 8th 2018, 3:30:16</a>
+            <p>Announcement: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">the Creative Commons Attribution-Noncommercial Use 4.0 International License Agreement</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        // id: "Start with Hexo", // 可选。默认为 location.href
+        owner: 'FangZhu1221',
+        repo: 'www.zhufang8.com',
+        oauth: {
+            client_id: '1bab580d284cc80b180e',
+            client_secret: '87c974f59b7c807eb994c77bed802574c26cc991',
+        },
+    })
+    gitment.render('container')
+
+</script>
+
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:jszjzf@hotmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/FangZhu1221" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.facebook.com/fang.zhu.370" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.linkedin.com/in/%E6%96%B9-%E6%9C%B1-6367b1163/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Announcement"><span class="toc-number">2.</span> <span class="toc-text">Announcement:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Markdown-basic"><span class="toc-number">3.</span> <span class="toc-text">Markdown basic:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Title"><span class="toc-number">3.1.</span> <span class="toc-text">1. Title:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-font-format-and-paragragh-structure"><span class="toc-number">3.2.</span> <span class="toc-text">2. font format and paragragh structure:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-content-and-table"><span class="toc-number">3.3.</span> <span class="toc-text">3. content and table:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Others"><span class="toc-number">3.4.</span> <span class="toc-text">4. Others:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Image"><span class="toc-number">3.4.1.</span> <span class="toc-text">Image:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#video"><span class="toc-number">3.4.2.</span> <span class="toc-text">video:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#music"><span class="toc-number">3.4.3.</span> <span class="toc-text">music</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#import-operations-in-Hexo"><span class="toc-number">4.</span> <span class="toc-text">import operations in Hexo:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#normal-operations"><span class="toc-number">4.1.</span> <span class="toc-text">normal operations:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference"><span class="toc-number">4.2.</span> <span class="toc-text">Reference:</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 1
+        <!-- search  -->
+        </div>
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/2018/06/08/Start-up/" >Start with Hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Webpage Design"><span class="iconfont-archer">&#xe606;</span>Webpage Design</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Hexo"><span class="iconfont-archer">&#xe60a;</span>Hexo</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Fang Zhu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    </body>
+</html>
