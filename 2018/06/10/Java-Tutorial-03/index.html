@@ -15,7 +15,7 @@
     <meta name="description" content="">
     <meta name="Cache-Control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Fang&#39;s Blog.</title>
+    <title>Java Tutorial 03-Exception, package importing and Synchronization · Fang&#39;s Blog.</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -70,6 +70,8 @@
 
     <link rel="preload" href= /css/style.css?v=20180604 as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <link rel="stylesheet" href= /css/mobile.css?v=20180604 media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
@@ -208,12 +210,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Fang&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Java Tutorial 03-Exception, package importing and Synchronization</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>Fang's Blog.</a>
 </header>
@@ -227,24 +240,76 @@
 
 
 
+height:50vh;
+
 >
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/images/Java_bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            Java Tutorial 03-Exception, package importing and Synchronization
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Java">Java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "tutorial">tutorial</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">629</span> / Reading time: <span class="post-count">4 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/06/10</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -356,44 +421,134 @@
 
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/06/08/StartWithHexo/" >
-            
-                <span>Start with Hexo</span>
-        </a>
-        <div class="abstract-content">
-            <div class="abstract"><br>  <img style="max-width:100%; overflow:hidden" src="/images/hexo.jpg" alt=""><br></div>
+            <main class="main post-page">
+    <article class="article-entry">
+        <div class="imageAbstract"><br>  <img style="max-width:100%; overflow:hidden" src="/images/JavaFirstPage.png" alt=""><br></div>
 
-<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract:"></a>Abstract:</h2><p>This is my first blog, thanks to the toolkits of <b>Hexo</b> helpping me reduce large amount of time and energy for studying and searching. This blog is to conclude the function and tools that I need to use for developing my future blogs. In breif, the tutorial starts with basic ways of using <b>Markdown</b> and html language for beautifying the webpages, functions used under the frameworks of the <b>Hexo</b> and some plugins that can improve the type of media for the expression. Finally the reference of the source I might use and copyright might involve will be put in the end of the articles.</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Hexo">Hexo</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Webpage Design">Webpage Design</a>
-    
-</div>
-            
-        </div>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract:"></a>Abstract:</h2><p>The lectures here will introduce the how the exception works in Java, the steps we need to do while importing new package and detail information about synchronization in Java.</p>
+<a id="more"></a>
+<hr>
+<p><br></p>
+<h2 id="Lecture-10-Exception"><a href="#Lecture-10-Exception" class="headerlink" title="Lecture 10: Exception"></a>Lecture 10: Exception</h2><h3 id="1-Definition-Exception-happens-during-the-execution-time"><a href="#1-Definition-Exception-happens-during-the-execution-time" class="headerlink" title="1. Definition: Exception happens during the execution time."></a>1. Definition: Exception happens during the execution time.</h3><p>[1] Thowable:</p>
+<ul>
+<li><ol>
+<li>Cannot be solved exception: Error class, is throwed by jvm, which infect our program badly, which cannot be dealt with.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Can be solved: Exception class.</li>
+</ol>
+</li>
+</ul>
+<p>[2] throws and throw: Anything can be decorated by the two key words are throwable.</p>
+<p>[3] object-&gt;throwable-&gt;error/exception.</p>
+<p>[4] throw exeception from class function to main to jvm to print on the control panel (default). The following function will not continue, just end of program. We can make ourself handler instead of the default function.</p>
+<p>[5] Exceptions construct functions have 3 types, including  transmitting nothing, transmitting error index and transmitting String buffer. (Check the manul pdf)</p>
+<p>[6] If we want to change the name of exeception in java. We can follow the class of Exception. If want to make a class to be an exception child class. In this case, not only we need to throw the self-defined exception in the line, but also we need to use throws after the name of the functions from the used function to the main function and finally to the JVM.</p>
+<p>[7] Difference between throw and throws:</p>
+<ul>
+<li><ol>
+<li>Exception: being checked during compiling exception and run time exception (exception caused by the user or the change of inner state).</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Runtime Exception and its child class do not need to use throws to throw the exception out of function to upper function like main function.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Self-defined Exception extends Exception or RuntimeException.</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>Difference:</li>
+</ol>
+<ul>
+<li><p>Throws is used after the name of the function, while throw is used inside the funcction.</p>
+</li>
+<li><p>Throws can throws multiple exceptions class seperated by “,”, while throw throws one exception object.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-Try-catch"><a href="#2-Try-catch" class="headerlink" title="2. Try catch."></a>2. Try catch.</h3><p>[1] If we do not throw the Exception, we have two ways to do:</p>
+<ul>
+<li><p>Mention and define the Exception, “throw” the new object and “throws” the new built class.</p>
+</li>
+<li><p>try and catch. This happen after the place the problem really happen. Not in the place where “throw” the exception, but the user (upper level) to “try catch” this exception instead of throwing to the jvm.</p>
+</li>
+</ul>
+<p>[2] defination:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//code needs to be checked with exception.</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span>(ExceptionClass variable)<span class="comment">// being used to recieve the exception objects</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//Solution of exception</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">finally</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//code must be executed</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>“try catch” and “try catch finally” two types. If the problem is dealt with successfully, then the program will continue executing.</p>
+</li>
+<li><p>Exception class will present the exception information instead of hashtable value as the normal class while printing.</p>
+</li>
+</ul>
+<p>[3] Muiltiple catch problem: Multiple catch, then the parent exception should be put in the below.</p>
+<p>[4] Finally: It is used to executed even we return after return during the error. (Demo3)</p>
+<p>[5] If one exception is the child of a parent exception, then only the child exception or its parent exception can be threw out. If we catch the parent exception. -&gt; Fu f = new Zi(); If parent exception throw a number of exception, then the child exception should only throw the exception equal or under the parent exception. If parent exception does not throw exception then the child should not throw, just try.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Inter</span> <span class="title">throws</span> <span class="title">A</span>,<span class="title">B</span>,<span class="title">C</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> <span class="keyword">implements</span> <span class="title">Inter</span> <span class="title">throws</span> <span class="title">A</span>,<span class="title">B</span>(<span class="title">A</span>/<span class="title">B</span>/<span class="title">A</span>,<span class="title">B</span>,<span class="title">C</span>/<span class="title">B</span>,<span class="title">C</span>/<span class="title">nothing</span>)</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">function</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/********************************************************/</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Inter</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> <span class="keyword">implements</span> <span class="title">Inter</span> <span class="title">throws</span> <span class="title">Exception</span>// <span class="title">error</span>, <span class="title">should</span> <span class="title">use</span> <span class="title">try</span> <span class="title">catch</span> <span class="title">in</span> <span class="title">the</span> <span class="title">function</span>.</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">function</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<hr>
+<p><br></p>
+
     </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Author: <a href="https://fangzhu1221.github.io">Fang Zhu</a>
+            <p>Link: <a href="https://fangzhu1221.github.io/2018/06/10/Java-Tutorial-03/">https://fangzhu1221.github.io/2018/06/10/Java-Tutorial-03/</a>
+            <p>Publishing date: <a href="https://fangzhu1221.github.io/2018/06/10/Java-Tutorial-03/">June 10th 2018, 2:06:20</a>
+            <p>Announcement: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">the Creative Commons Attribution-Noncommercial Use 4.0 International License Agreement</a></p>
+        </div>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/06/10/Java-Tutorial-02/" title= Java Tutorial 02-class >
+                    <div class="prevTitle">Java Tutorial 02-class</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        // id: "Java Tutorial 03-Exception, package importing and Synchronization", // 可选。默认为 location.href
+        owner: 'FangZhu1221',
+        repo: 'FangZhu1221.github.io',
+        oauth: {
+            client_id: '5336d9db2a19449b7271',
+            client_secret: 'f6f5ed2733ae4d80e6c4e8fc3be8cc335301ca24',
+        },
+    })
+    gitment.render('container')
+
+</script>
+
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
 </main>
+
             <!-- profile -->
             
         </div>
@@ -477,6 +632,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-10-Exception"><span class="toc-number">2.</span> <span class="toc-text">Lecture 10: Exception</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Definition-Exception-happens-during-the-execution-time"><span class="toc-number">2.1.</span> <span class="toc-text">1. Definition: Exception happens during the execution time.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Try-catch"><span class="toc-number">2.2.</span> <span class="toc-text">2. Try catch.</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -665,6 +838,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
     
     </body>
 </html>
