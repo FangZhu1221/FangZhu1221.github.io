@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Fang Zhu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Fang Zhu">
+    <meta name="keywords" content="Fang's Blog | Fang Zhu">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Android Tutorial 01-introduction and basic components · Fang&#39;s Blog.</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180604 as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= /css/mobile.css?v=20180604 media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.png" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <link rel="stylesheet" href="https://oindk07nf.qnssl.com/atom-one-dark.css" media="screen" type="text/css">
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search for Posts","hits_empty":"We did not find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}')
+
+            var algolia = {
+                applicationID: 'RAYFW1FY59',
+                apiKey: '61893b83215905941c8282190ff7cd08',
+                indexName: 'FangBlog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Fang&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Android Tutorial 01-introduction and basic components</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Fang's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style=
+
+
+
+
+
+
+
+
+height:50vh;
+
+>
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/images/Android_bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Android Tutorial 01-introduction and basic components
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Java">Java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "tutorial">tutorial</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "application">application</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">2,034</span> / Reading time: <span class="post-count">13 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/06/10</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js",
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+
+  //iframe automatically changing
+  function iFrameHeight() {
+    var ifm= document.getElementById("iframepage");
+    var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;
+    if(ifm != null && subWeb != null) {
+       ifm.height = subWeb.body.scrollHeight;
+       ifm.width = subWeb.body.scrollWidth;
+    }
+  }
+</script>
+
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <div class="imageAbstract"><br>  <img style="max-width:100%; overflow:hidden" src="/images/AndroidFirstPage.png" alt=""><br></div>
+
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract:"></a>Abstract:</h2><p>In this part, I start to learn the basic knowledge and skills of developing android applications. Thanks to the class <a href="https://www.youtube.com/watch?v=v_OQHLjmfEM&amp;list=PLYKXDWkoIMUH088iBEr_B2WPfbPwtaG-V" target="_blank" rel="noopener">CS 193A from stanford University on youtube</a> (for all android blog afterwards), the experience of study would be much easier. In the lectures here, a brief introduction of using Android studio and the import elements involved during the application development will be mentioned.</p>
+<a id="more"></a>
+<hr>
+<p><br></p>
+<h2 id="Lecture-01-introduction"><a href="#Lecture-01-introduction" class="headerlink" title="Lecture 01: introduction"></a>Lecture 01: introduction</h2><h3 id="1-Pre-requites"><a href="#1-Pre-requites" class="headerlink" title="1. Pre-requites:"></a>1. Pre-requites:</h3><p>[1] Java</p>
+<h3 id="2-Introduction"><a href="#2-Introduction" class="headerlink" title="2. Introduction:"></a>2. Introduction:</h3><p>[1] Java for dev, Linux for kernel.</p>
+<p>[2] Why develop android instead of websites. More smooth and swift.</p>
+<p>[3] Architecture:</p>
+<ul>
+<li><ol>
+<li>code is not tranferred into “.class” file as binary format for Java but the Dalvik binary format</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>software: Android Studio;</li>
+</ol>
+</li>
+</ul>
+<p>[4] Project structure:</p>
+<ul>
+<li><ol>
+<li>AndroidManifest.xml: setting and configs; (no need to put files)</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>src/java/…: source code for your java classes; (no need to put files)</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>res/…:  resource fules(like XML): drawable/-&gt;images; layout/ =description; menu/ = overall app menu options; values/ = constant values and arrays; strings/ = localization data; styles/ = general appearance styling;</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>Gradle: a build/compile makefile, and the build.gradle is the main makefile;</li>
+</ol>
+</li>
+</ul>
+<p>[5] Virtual Devices (AVDs):</p>
+<ul>
+<li><ol>
+<li>Simulate the apps;</li>
+</ol>
+</li>
+</ul>
+<p>[6] Create the first app:</p>
+<ul>
+<li><ol>
+<li>Rules:  “Bigger Number”: user is shown 2 numbers. Click button to choose the bigger one; correct/incorrect message after each guess; earn points for each correct answer.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Need to learn: How to create the position graphical widgets. How to respond to user events.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Steps to run:</li>
+</ol>
+<ul>
+<li><ol>
+<li>Start a new project for android studio.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Click Next through most of the menus.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Choose “Empty Activity” instead of “Blank Activity”</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>If we run our file, we can choose a plugged in phone to test or virtual machine.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><ol start="4">
+<li>Terminology:</li>
+</ol>
+<ul>
+<li><ol>
+<li>activity: a screen of an app of UI;</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>view: On screen items:</li>
+</ol>
+</li>
+<li><p>widget: GUI control such as a buttom;</p>
+</li>
+<li><p>layout: invisible container to position/size widgets;</p>
+</li>
+<li><ol start="3">
+<li>event: action that occurs when user interacts with widgets.<br>(clicking, typing, scrolling)</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>action bar: top menu of common actions;</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>notification area: top system menu;</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><ol start="5">
+<li>widgets: includes clocks, button, checkbox and etc.</li>
+</ol>
+</li>
+<li><ol start="6">
+<li>Design a UI:</li>
+</ol>
+<ul>
+<li><ol>
+<li>XML file is for the layout. (like website)</li>
+</ol>
+<ul>
+<li><ol start="2">
+<li>drag widgets from left Palette to the preview image.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>set their properties in lower-right Properties panel.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>[7] Event: An external stimulus your program can respond to.(Mouse motion/tapping, key pressed; Timers expiring, Network data available)</p>
+<ul>
+<li><ol>
+<li>We should respond to events with methods to handle.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Attach those methods to particular GUI widgets.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Give the action a name and create the function with the name in the Mainactivity class. So we need to inialize data in this main method.</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>The View objects get/set methods to  design the properties like backgroud, bottom, ID and etc. (e.g. CharSequence getText() and void setText(String text))</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>In Java code we use findViewById to access its View object. (Pass it a parameter of R.id.your_unique_ID and cast the returned value to the appropriate type(Button, TextView, etc.))</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">botton1_onclick</span><span class="params">(View view)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TextView tv = (TextView) findViewById(R.id.mytextview);</span><br><span class="line">	tv.setText(<span class="string">"You clicked it!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>p.s. Integer.valueOf(s); String.valueOf(n); o.toString()</em></p>
+<ul>
+<li><ol start="6">
+<li>ID of the design view of the .xml is selfdesigned id we will use and the id’s format in the function findViewById should be R.id.ID_Name. e.g. Button button = (Button) findViewById(R.id.Left_Bottom);</li>
+</ol>
+</li>
+</ul>
+<p>[8] Toast: a pop-up message that appears for a short time. (Toast.makeText(this,”text”,Toast.LENGTH_SHORT).show())</p>
+<p><br></p>
+<hr>
+<p><br></p>
+<h2 id="Lecture-02-Layout-and-GUI-Widgets"><a href="#Lecture-02-Layout-and-GUI-Widgets" class="headerlink" title="Lecture 02: Layout and GUI Widgets"></a>Lecture 02: Layout and GUI Widgets</h2><h3 id="1-Button"><a href="#1-Button" class="headerlink" title="1. Button:"></a>1. Button:</h3><p>[1] clickable: (true/false) Set false to disable the button;</p>
+<p>[2] id: unique ID for Java;</p>
+<p>[3] onCLick: “function” function to call in activity when clicked;</p>
+<p>[4] text: text to put in the button;</p>
+<h3 id="2-TextView"><a href="#2-TextView" class="headerlink" title="2. TextView:"></a>2. TextView:</h3><p>[1] ID: unique ID;</p>
+<p>[2] text: text to display; (.setText())</p>
+<p>p.s. We can put a scroll view of the text view: <scrollview><textview ...=""></textview></scrollview></p>
+<h3 id="3-Size-and-position"><a href="#3-Size-and-position" class="headerlink" title="3.  Size and position:"></a>3.  Size and position:</h3><p>[1] Absolute position: size in (x = 15, y = 75) like C++, C# and etc.</p>
+<p>[2] Layout manager: Decide where to position each component based on some general rules or criteria. Better for variety devices.</p>
+<h3 id="ViewGroup-as-layout"><a href="#ViewGroup-as-layout" class="headerlink" title="ViewGroup as layout:"></a>ViewGroup as layout:</h3><p>[1] ViewGroup superclass represents containers of views: mirror the code in Java from the XML file to get the parameters or set the widgets.</p>
+<p>[2] Activity itself is also a ViewGroup, so do the various layout classes.</p>
+<h3 id="4-XML"><a href="#4-XML" class="headerlink" title="4. XML:"></a>4. XML:</h3><p>[1] a language for describing hiearchical text data. Use tags that consist of elements and attributes. Tags can be nested. Some tags are opened and closed; others self-close.</p>
+<p>e.g. <element attr="value"> … </element> or <element attr="value"></element></p>
+<h3 id="5-Changing-layouts-LinearLayout"><a href="#5-Changing-layouts-LinearLayout" class="headerlink" title="5. Changing layouts: LinearLayout"></a>5. Changing layouts: LinearLayout</h3><p>[1] Go to the Text view for xml.</p>
+<p>[2] change open/close tags to new layout type, e.g. LinearLayout.</p>
+<p>[3] now go back to Design view and add widgets.</p>
+<p>[4] Linear Layout:</p>
+<pre><code>&lt;1&gt; lays out widgets/views in a single line;
+
+&lt;2&gt; orientation of horizontal or vertical;
+
+&lt;3&gt; items do not wrap if they reach edge of screen;
+
+&lt;4&gt; change the tag to LinearLayout;
+</code></pre><p>[5] Gravity: alignment direction that widgets are pulled: top, bottom, left, right and center. (combine multiple with ‘|’). Set gravity on the layout to adjust all widgets; set layout_gravity on an individual widget.</p>
+<p>e.g. <linearlayout ...="" android:="" orientation="vertical" android:gravity="center|right"> or to individual widget: android: layout_gravity=”left”;</linearlayout></p>
+<p>[6] Widget box model</p>
+<ul>
+<li><ol>
+<li>content: size of widget itself.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>padding: artificial increase to widget size outside of content.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>border: outside padding, aline around edge of widget.</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>margin: invisible separation from neighboring widgets.</li>
+</ol>
+</li>
+</ul>
+<p>[7] Sizing an individual widget:</p>
+<ul>
+<li><ol>
+<li>wrap_content: exactly large enough to fit the widget’s content</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>match_parent: as wide or tall as 100% of the screen of layout.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>a specific fixed width such as 64dp (not usually recommended)</li>
+</ol>
+<ul>
+<li>dp = device pixels; dip = deice-independent pixels; sp = scaling pixels;</li>
+</ul>
+</li>
+</ul>
+<p>[8] Padding: extra space inside widget: set padding to adjust all sides; paddingTop, Bottom, Left, Right for one side; Usually set to specific values like 10dp. (some widgets have a default value 16dp)</p>
+<p>[9] Margin: extra blank space outside widget:  set layout_margin to adjust all sides;  layout_marginTop, Bottom, Left and Right; Usually set to specific values like 10dp. (set defaults in res/values/dimens.xml)</p>
+<h3 id="6-Changing-layouts-GridLayout"><a href="#6-Changing-layouts-GridLayout" class="headerlink" title="6. Changing layouts: GridLayout."></a>6. Changing layouts: GridLayout.</h3><p>[1] lays out widgets/views in lines of rows and columns.</p>
+<p>[2] orientation attribute defines row/column-major order</p>
+<p>[3] introduced in Android 4; replacing the TableLayout</p>
+<p>[4] each widget placed into “next” available row/column unless givena layout_row and layout_column attribute</p>
+<p>[5] We need rowCount and ColumnCount to set the widgets’ positions. (layout_columnSpan = “2”)</p>
+<p>[6] layout_rowWeight and layout_columnWeight to make button fill the space.</p>
+<h3 id="7-Nested-layout"><a href="#7-Nested-layout" class="headerlink" title="7. Nested layout."></a>7. Nested layout.</h3><p>[1] OuterLayout -&gt; InnerLayout -&gt; Widget</p>
+<h3 id="RelativLayout"><a href="#RelativLayout" class="headerlink" title="RelativLayout:"></a>RelativLayout:</h3><p>[1] Each widget’s position and size are relative to other views:</p>
+<ul>
+<li><ol>
+<li>relative to “parent” (the activity itself)</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>relative to other widgets/views</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>x-positions of reference: left, right, center;</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>y-positions of reference: top,bottom, center;</li>
+</ol>
+</li>
+</ul>
+<p>[2] We need to anchor the position.</p>
+<p><br></p>
+<hr>
+<p><br></p>
+<h2 id="Lecture-03-Widgets-and-Lists"><a href="#Lecture-03-Widgets-and-Lists" class="headerlink" title="Lecture 03 Widgets and Lists:"></a>Lecture 03 Widgets and Lists:</h2><h3 id="1-Library-Stanford-Android-Library-as-an-example"><a href="#1-Library-Stanford-Android-Library-as-an-example" class="headerlink" title="1. Library: (Stanford Android Library as an example)"></a>1. Library: (Stanford Android Library as an example)</h3><p>[1] move the “.jar” under the folder of lib under the project view, then right click the file and choose “add as a library” then we can use some examples or classes under it.</p>
+<p>[2] example 1. We can extends SimpleActivity instead of normal AppCompatActivity. We can go to the declaration of the class to know how exactly it works.</p>
+<p>[3] example 2. <1> “Button lbutt = (Button) findViewById(R.id.Left_button);” = “Button lbutt = $(R.id.Left_button);” <2> “Button lbutt = (Button) findViewById(R.id.Left_button); lbutt.setText(String.valueOf(rand1))” = “$B(R.id.Left_button).setText(String.valueOf(rand1));” ($B,$CB,$TV…)</2></1></p>
+<p>[4] example 3. “Toast.makeTex(this,”Great job!”,Toast.LENGTH_SHORT).show()” = “toast(“Great job”);”.</p>
+<h3 id="2-EditText-EditText-myEditText-EditText-findViewById-R-id-theID-String-text-myEditText-getText-toString"><a href="#2-EditText-EditText-myEditText-EditText-findViewById-R-id-theID-String-text-myEditText-getText-toString" class="headerlink" title="2. EditText: EditText myEditText = (EditText) findViewById(R.id.theID); String text = myEditText.getText().toString();"></a>2. EditText: EditText myEditText = (EditText) findViewById(R.id.theID); String text = myEditText.getText().toString();</h3><p>[1] ID: unique ID</p>
+<p>[2] hint = “text”: gray placeholder text shown before user types.</p>
+<p>[3] inputType = “type”: what kind of input is being typed: number, phone, data, time…</p>
+<p>[4] lines = “int”: number of visble lines of input.</p>
+<p>[5] maxLines = “int”: max lines to allow user to type in the box.</p>
+<p>[6] text = “text”: initial text to put in box.</p>
+<p>[7] textSize = “size”: font size.</p>
+<h3 id="3-ImageView-ImageView-myImageView-ImageView-findViewById-R-id-theID-myImageView-setImageResource-R-drawable-filename"><a href="#3-ImageView-ImageView-myImageView-ImageView-findViewById-R-id-theID-myImageView-setImageResource-R-drawable-filename" class="headerlink" title="3. ImageView: ImageView myImageView = (ImageView) findViewById(R.id.theID); myImageView.setImageResource(R.drawable.filename);"></a>3. ImageView: ImageView myImageView = (ImageView) findViewById(R.id.theID); myImageView.setImageResource(R.drawable.filename);</h3><p>[1] id: unique ID.</p>
+<p>[2] src = “/img.jpg”: image to put in the view.</p>
+<p>[3] tag = “string”: a text tag to associate with the image.</p>
+<p>[4] scaleType = “type”: causes the image to grow/shrink; can be “center”, “ccenterCorp”, “fitCenter”, “matrix”, …</p>
+<p><em>p.s. The resource file should be put under the right folder under the file “res/“. (e.g. res/drawable/image.jpg) Then refering to the resource in XML: @type/name. (e.g. @drawable/image) Finally, refering to a resource ID in the Java code: R.type.name. (e.g. T.drawable.image)<br>(app/src/main/res/drawable)</em></p>
+<h3 id="4-RadioButton"><a href="#4-RadioButton" class="headerlink" title="4. RadioButton"></a>4. RadioButton</h3><p>[1] id: unique ID.</p>
+<p>[2] checked = “bool”: whether button is initially checked. (default false)</p>
+<p>[3] clickable = “bool”: set to false to disable the button.</p>
+<p>[4] onClick = “function”: function to call in activity when clicked.</p>
+<p>[5] text = “text”: text to put next to the button.</p>
+<p>[6] Radio Group: it will help the radio buttons work mutually.</p>
+<p><em>p.s. choose id with “@+id/name”</em></p>
+<h3 id="5-Switch"><a href="#5-Switch" class="headerlink" title="5.  Switch"></a>5.  Switch</h3><p>[1] id: unique ID.</p>
+<p>[2] textOn = “text”: text to show next to “on” (right) side.</p>
+<p>[3] textOff = “text”: text to show next to “off” (left) side.</p>
+<p>[4] showText = “bool”: whether to show text on L/R sides. (default false)</p>
+<p>[5] onClick = “function”: function to call in activity when clicked.</p>
+<p>[6] text = “text”: text to put on left side next to the switch.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Switch sw = (Switch) findViewById(R.id.theID);</span><br><span class="line"><span class="keyword">if</span>(sw.isChecked()) &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-ImageButton"><a href="#6-ImageButton" class="headerlink" title="6. ImageButton"></a>6. ImageButton</h3><p>[1] clickable = “bool”: set to false to disable the button.</p>
+<p>[2] id: unique id.</p>
+<p>[3] onClick = “function”: function to call in activity when clicked.</p>
+<p>[4] src = “/img”: image to put in the button.</p>
+<h3 id="7-Convert-the-resource-IDs"><a href="#7-Convert-the-resource-IDs" class="headerlink" title="7. Convert the resource IDs:"></a>7. Convert the resource IDs:</h3><p>[1] int pikaID = getResources().getIdentifier(“pikachu”, “drawable”, getPackageName());</p>
+<p>[2] String pika = getResources().getResourceEntryName(R.drawable.pikachu);</p>
+<p>[3] String full = getResources().getResourceName(R.drawable.pikachu);</p>
+<p><em>p.s. R.id.name =&gt; Interger =&gt; [1];</em></p>
+<h3 id="8-ListView"><a href="#8-ListView" class="headerlink" title="8. ListView"></a>8. ListView</h3><p>[1] A set of items, that we can click them seperately.</p>
+<p>[2] Id: unique id;</p>
+<p>[3] clickable: boolean;</p>
+<p>[4] entries: “@array/array”, set of options to appear in the list(must match an array in strings.xml)</p>
+<p>[5] Static lists: content is fixed and known before app runs. (Declare the list elements in the strings.xml resource file)</p>
+<ul>
+<li><ol>
+<li>We can declare a string-array in the resources, and add items.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Then build entries in ListView and use the string-array.</li>
+</ol>
+</li>
+</ul>
+<p>[6] dynamic list: Content is read or generated as the program runs. (Comes from a data file, or from the internet,etc; Must be set in the Java code) (Better!)</p>
+<ul>
+<li><ol>
+<li>List adapters:</li>
+</ol>
+<ul>
+<li><ol>
+<li>Common adapters: ArrayAdapter(items come from an array or list) and CursorAdaptor(items come from a database query)</li>
+</ol>
+</li>
+<li><p>e.g.</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ArrayAdapter&lt;String&gt; name = <span class="keyword">new</span> ArrayAdapter&lt;&gt;(activty, layout, array);</span><br></pre></td></tr></table></figure>
+<pre><code>this -&gt; activity; default layout: android.R.layout.simple_list_item_1; get the array/list by reading your file or data source of choice. Using the setAdapter method.
+
+_p.s. Do it in library way:_
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SimpleList.with(<span class="keyword">this</span>).setItems(R.id.mylist,<span class="string">"Leo"</span>,<span class="string">"Mike"</span>,<span class="string">"Don"</span>,<span class="string">"Raph"</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol start="2">
+<li>try to do the list event in Java code: anonymous inner class; (Pass the function as parameters)</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">setOnItemClickListener(AdapterView.onItemClickListener);</span><br><span class="line"><span class="comment">//Listener for when an item in the list has been clicked.</span></span><br><span class="line"></span><br><span class="line">setOnItemLongClick(AdapterView.OnItemClickListener);</span><br><span class="line"><span class="comment">//Listener for when an item in the list has been clicked and held.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Others: onDrag.onFocusChanged, onHover onKey, onScroll, on Touch</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>p.s. library way:</em></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SimpleList.with(<span class="keyword">this</span>).setItem(list,dictionary.keySet()); <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line">ListView list = $LV(R.id.word.word_list); <span class="comment">// 2</span></span><br><span class="line"></span><br><span class="line">list.setOnItemClickListener(<span class="keyword">new</span> Marty()); <span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Marty</span> <span class="keyword">implements</span> <span class="title">AdapterView</span>.<span class="title">OnItemClickListener</span></span>&#123;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(ListView parent, View view, <span class="keyword">int</span> postion, <span class="keyword">long</span> id)</span></span>;</span><br><span class="line">&#125; <span class="comment">// 4</span></span><br><span class="line"></span><br><span class="line">list.setOnItemClickListener((parent, view, position, id) -&gt; &#123;String word = parent.getItemAtPostion(postion).toString();</span><br><span class="line">String defi = dictionary.get(word); toast(defi);&#125;)</span><br><span class="line"><span class="comment">// 5 Only for Java8: We need to enable java8 in build bradle. (details youtube -- 18min)</span></span><br></pre></td></tr></table></figure>
+<p><br></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Author: <a href="https://fangzhu1221.github.io">Fang Zhu</a>
+            <p>Link: <a href="https://fangzhu1221.github.io/2018/06/10/Android-Tutorial-01/">https://fangzhu1221.github.io/2018/06/10/Android-Tutorial-01/</a>
+            <p>Publishing date: <a href="https://fangzhu1221.github.io/2018/06/10/Android-Tutorial-01/">June 10th 2018, 2:35:00</a>
+            <p>Announcement: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">the Creative Commons Attribution-Noncommercial Use 4.0 International License Agreement</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/06/10/Java-Tutorial-03/" title= Java Tutorial 03-Exception and Synchronization >
+                    <div class="prevTitle">Java Tutorial 03-Exception and Synchronization</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        // id: "Android Tutorial 01-introduction and basic components", // 可选。默认为 location.href
+        owner: 'FangZhu1221',
+        repo: 'FangZhu1221.github.io',
+        oauth: {
+            client_id: '5336d9db2a19449b7271',
+            client_secret: 'f6f5ed2733ae4d80e6c4e8fc3be8cc335301ca24',
+        },
+    })
+    gitment.render('container')
+
+</script>
+
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:jszjzf@hotmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/FangZhu1221" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.facebook.com/fang.zhu.370" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.linkedin.com/in/%E6%96%B9-%E6%9C%B1-6367b1163/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-01-introduction"><span class="toc-number">2.</span> <span class="toc-text">Lecture 01: introduction</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Pre-requites"><span class="toc-number">2.1.</span> <span class="toc-text">1. Pre-requites:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Introduction"><span class="toc-number">2.2.</span> <span class="toc-text">2. Introduction:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-02-Layout-and-GUI-Widgets"><span class="toc-number">3.</span> <span class="toc-text">Lecture 02: Layout and GUI Widgets</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Button"><span class="toc-number">3.1.</span> <span class="toc-text">1. Button:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-TextView"><span class="toc-number">3.2.</span> <span class="toc-text">2. TextView:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Size-and-position"><span class="toc-number">3.3.</span> <span class="toc-text">3.  Size and position:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ViewGroup-as-layout"><span class="toc-number">3.4.</span> <span class="toc-text">ViewGroup as layout:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-XML"><span class="toc-number">3.5.</span> <span class="toc-text">4. XML:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Changing-layouts-LinearLayout"><span class="toc-number">3.6.</span> <span class="toc-text">5. Changing layouts: LinearLayout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Changing-layouts-GridLayout"><span class="toc-number">3.7.</span> <span class="toc-text">6. Changing layouts: GridLayout.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Nested-layout"><span class="toc-number">3.8.</span> <span class="toc-text">7. Nested layout.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RelativLayout"><span class="toc-number">3.9.</span> <span class="toc-text">RelativLayout:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-03-Widgets-and-Lists"><span class="toc-number">4.</span> <span class="toc-text">Lecture 03 Widgets and Lists:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Library-Stanford-Android-Library-as-an-example"><span class="toc-number">4.1.</span> <span class="toc-text">1. Library: (Stanford Android Library as an example)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-EditText-EditText-myEditText-EditText-findViewById-R-id-theID-String-text-myEditText-getText-toString"><span class="toc-number">4.2.</span> <span class="toc-text">2. EditText: EditText myEditText = (EditText) findViewById(R.id.theID); String text = myEditText.getText().toString();</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-ImageView-ImageView-myImageView-ImageView-findViewById-R-id-theID-myImageView-setImageResource-R-drawable-filename"><span class="toc-number">4.3.</span> <span class="toc-text">3. ImageView: ImageView myImageView = (ImageView) findViewById(R.id.theID); myImageView.setImageResource(R.drawable.filename);</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-RadioButton"><span class="toc-number">4.4.</span> <span class="toc-text">4. RadioButton</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Switch"><span class="toc-number">4.5.</span> <span class="toc-text">5.  Switch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-ImageButton"><span class="toc-number">4.6.</span> <span class="toc-text">6. ImageButton</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Convert-the-resource-IDs"><span class="toc-number">4.7.</span> <span class="toc-text">7. Convert the resource IDs:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-ListView"><span class="toc-number">4.8.</span> <span class="toc-text">8. ListView</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 5
+        <!-- search  -->
+        </div>
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Java-Tutorial-03/" >Java Tutorial 03-Exception and Synchronization</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Android-Tutorial-01/" >Android Tutorial 01-introduction and basic components</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Java-Tutorial-02/" >Java Tutorial 02-class</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/09</span><a class="archive-post-title" href= "/2018/06/09/Java-Tutorial-01/" >Java Tutorial 01-basic gramma</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/2018/06/08/StartWithHexo/" >Start with Hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
+    
+        <span class="sidebar-tag-name" data-tags="Java"><span class="iconfont-archer">&#xe606;</span>Java</span>
+    
+        <span class="sidebar-tag-name" data-tags="tutorial"><span class="iconfont-archer">&#xe606;</span>tutorial</span>
+    
+        <span class="sidebar-tag-name" data-tags="application"><span class="iconfont-archer">&#xe606;</span>application</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Webpage Design"><span class="iconfont-archer">&#xe606;</span>Webpage Design</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Android-Application-Development"><span class="iconfont-archer">&#xe60a;</span>Android-Application-Development</span>
+    
+        <span class="sidebar-category-name" data-categories="Java"><span class="iconfont-archer">&#xe60a;</span>Java</span>
+    
+        <span class="sidebar-category-name" data-categories="Hexo"><span class="iconfont-archer">&#xe60a;</span>Hexo</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Fang Zhu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    </body>
+</html>
