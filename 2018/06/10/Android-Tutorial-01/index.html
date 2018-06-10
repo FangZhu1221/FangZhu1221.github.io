@@ -275,11 +275,11 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Android">Android</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-tags = "Java">Java</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "tutorial">tutorial</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Android">Android</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "application">application</a>
     
@@ -746,11 +746,11 @@ height:50vh;
 <li>Common adapters: ArrayAdapter(items come from an array or list) and CursorAdaptor(items come from a database query)<br><br></li>
 </ol>
 </li>
-<li>e.g.<br><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ArrayAdapter&lt;String&gt; name = <span class="keyword">new</span> ArrayAdapter&lt;&gt;(activty, layout, array);</span><br></pre></td></tr></table></figure>
-</li>
+<li>e.g.<br><br></li>
 </ul>
 </li>
 </ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ArrayAdapter&lt;String&gt; name = <span class="keyword">new</span> ArrayAdapter&lt;&gt;(activty, layout, array);</span><br></pre></td></tr></table></figure>
 <p>this -&gt; activity; default layout: android.R.layout.simple_list_item_1; get the array/list by reading your file or data source of choice. Using the setAdapter method.</p>
 <ul>
 <li><em>p.s. Do it in library way:</em></li>
@@ -764,9 +764,9 @@ height:50vh;
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">setOnItemClickListener(AdapterView.onItemClickListener);</span><br><span class="line"><span class="comment">//Listener for when an item in the list has been clicked.</span></span><br><span class="line"></span><br><span class="line">setOnItemLongClick(AdapterView.OnItemClickListener);</span><br><span class="line"><span class="comment">//Listener for when an item in the list has been clicked and held.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Others: onDrag.onFocusChanged, onHover onKey, onScroll, on Touch</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li><em>p.s. library way:</em><br><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SimpleList.with(<span class="keyword">this</span>).setItem(list,dictionary.keySet()); <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line">ListView list = $LV(R.id.word.word_list); <span class="comment">// 2</span></span><br><span class="line"></span><br><span class="line">list.setOnItemClickListener(<span class="keyword">new</span> Marty()); <span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Marty</span> <span class="keyword">implements</span> <span class="title">AdapterView</span>.<span class="title">OnItemClickListener</span></span>&#123;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(ListView parent, View view, <span class="keyword">int</span> postion, <span class="keyword">long</span> id)</span></span>;</span><br><span class="line">&#125; <span class="comment">// 4</span></span><br><span class="line"></span><br><span class="line">list.setOnItemClickListener((parent, view, position, id) -&gt; &#123;String word = parent.getItemAtPostion(postion).toString();</span><br><span class="line">String defi = dictionary.get(word);</span><br><span class="line">toast(defi);&#125;;</span><br><span class="line"><span class="comment">// 5 Only for Java8: We need to enable java8 in build bradle. (details youtube -- 18min)</span></span><br></pre></td></tr></table></figure>
-</li>
+<li><em>p.s. library way:</em><br><br></li>
 </ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SimpleList.with(<span class="keyword">this</span>).setItem(list,dictionary.keySet()); <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line">ListView list = $LV(R.id.word.word_list); <span class="comment">// 2</span></span><br><span class="line"></span><br><span class="line">list.setOnItemClickListener(<span class="keyword">new</span> Marty()); <span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Marty</span> <span class="keyword">implements</span> <span class="title">AdapterView</span>.<span class="title">OnItemClickListener</span></span>&#123;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(ListView parent, View view, <span class="keyword">int</span> postion, <span class="keyword">long</span> id)</span></span>;</span><br><span class="line">&#125; <span class="comment">// 4</span></span><br><span class="line"></span><br><span class="line">list.setOnItemClickListener((parent, view, position, id) -&gt; &#123;String word = parent.getItemAtPostion(postion).toString();</span><br><span class="line">String defi = dictionary.get(word);</span><br><span class="line">toast(defi);&#125;;</span><br><span class="line"><span class="comment">// 5 Only for Java8: We need to enable java8 in build bradle. (details youtube -- 18min)</span></span><br></pre></td></tr></table></figure>
 <p><br></p>
 
     </article>
@@ -980,6 +980,8 @@ top:50vh;
     
     
     
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 5
@@ -1028,11 +1030,11 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
-    
         <span class="sidebar-tag-name" data-tags="Java"><span class="iconfont-archer">&#xe606;</span>Java</span>
     
         <span class="sidebar-tag-name" data-tags="tutorial"><span class="iconfont-archer">&#xe606;</span>tutorial</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
     
         <span class="sidebar-tag-name" data-tags="application"><span class="iconfont-archer">&#xe606;</span>application</span>
     
@@ -1073,9 +1075,9 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="Android-Application-Development"><span class="iconfont-archer">&#xe60a;</span>Android-Application-Development</span>
-    
         <span class="sidebar-category-name" data-categories="Java"><span class="iconfont-archer">&#xe60a;</span>Java</span>
+    
+        <span class="sidebar-category-name" data-categories="Android-Application-Development"><span class="iconfont-archer">&#xe60a;</span>Android-Application-Development</span>
     
         <span class="sidebar-category-name" data-categories="Hexo"><span class="iconfont-archer">&#xe60a;</span>Hexo</span>
     
