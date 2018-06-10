@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Fang Zhu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Fang Zhu">
+    <meta name="keywords" content="Fang's Blog | Fang Zhu">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Android Tutorial 02-file, intents and life cycle · Fang&#39;s Blog.</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180604 as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= /css/mobile.css?v=20180604 media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.png" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <link rel="stylesheet" href="https://oindk07nf.qnssl.com/atom-one-dark.css" media="screen" type="text/css">
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search for Posts","hits_empty":"We did not find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}')
+
+            var algolia = {
+                applicationID: 'RAYFW1FY59',
+                apiKey: '61893b83215905941c8282190ff7cd08',
+                indexName: 'FangBlog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Fang&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Android Tutorial 02-file, intents and life cycle</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Fang's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style=
+
+
+
+
+
+
+
+
+height:50vh;
+
+>
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/images/Android_bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Android Tutorial 02-file, intents and life cycle
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Java">Java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "tutorial">tutorial</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "application">application</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">1,784</span> / Reading time: <span class="post-count">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/06/10</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js",
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+
+  //iframe automatically changing
+  function iFrameHeight() {
+    var ifm= document.getElementById("iframepage");
+    var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;
+    if(ifm != null && subWeb != null) {
+       ifm.height = subWeb.body.scrollHeight;
+       ifm.width = subWeb.body.scrollWidth;
+    }
+  }
+</script>
+
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <div class="imageAbstract"><br>  <img style="max-width:100%; overflow:hidden" src="/images/AndroidFirstPage.png" alt=""><br></div>
+
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract:"></a>Abstract:</h2><p>Link: <a href="https://www.youtube.com/watch?v=v_OQHLjmfEM&amp;list=PLYKXDWkoIMUH088iBEr_B2WPfbPwtaG-V" target="_blank" rel="noopener">CS 193A from stanford University on youtube</a> (for all android blog afterwards) This lecture will introduce how the file system works, activities and the how to let another activity occurs in different life time of the initial activity.</p>
+<a id="more"></a>
+<hr>
+<p><br></p>
+<h2 id="Lecture-04-Files"><a href="#Lecture-04-Files" class="headerlink" title="Lecture 04: Files:"></a>Lecture 04: Files:</h2><h3 id="1-Spinner-a-drop-down-menu-of-selectable-choices"><a href="#1-Spinner-a-drop-down-menu-of-selectable-choices" class="headerlink" title="1. Spinner: a drop down menu of selectable choices;"></a>1. Spinner: a drop down menu of selectable choices;</h3><p>[1] Spinner spin = (Spinner) findViewById(R.id.theID);</p>
+<p>[2] spin.setOnItemSelectedListener(this);</p>
+<p>[3] id: unique ID;</p>
+<p>[4] clickable = “boolean”;</p>
+<p>[5] prompt = “@string/text”: title text when dialog of choices pops up;</p>
+<p>[6]entries = “@array/array”: set of options to appear in spinner;</p>
+<p>(p.s. The easy way like toast should be used under the SimpleActivity)</p>
+<h3 id="2-File-and-Storage"><a href="#2-File-and-Storage" class="headerlink" title="2.  File and Storage:"></a>2.  File and Storage:</h3><p>[1] File: Objects that represent a file or directory;</p>
+<p>[2] InputStream, OutputStream: flows of data bytes from/to a source or destination:</p>
+<ul>
+<li><ol>
+<li>new Scanner(InputStream/ File/ String);<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>close(): Shuts down scanner and stops reading;<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>hasNext(): true if there are more tokens;<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>hasNextDouble(): true if there is a next token and it’s a double;<br><br></li>
+</ol>
+</li>
+<li><ol start="5">
+<li>hasNextInt(): true if there are more lines;<br><br></li>
+</ol>
+</li>
+<li><ol start="6">
+<li>hasNextLine(): true if there are more lines;<br><br></li>
+</ol>
+</li>
+<li><ol start="7">
+<li>String next(): returns next word(whitespace-separated);<br><br></li>
+</ol>
+</li>
+<li><ol start="8">
+<li>nextDouble(): returns next token as a double;<br><br></li>
+</ol>
+</li>
+<li><ol start="9">
+<li>nextInt(): returns next token as an int;<br><br></li>
+</ol>
+</li>
+<li><ol start="10">
+<li>nextLine(): returns next line (up to but excluding \n)<br><br></li>
+</ol>
+</li>
+<li><ol start="11">
+<li>useDelimiter(“str”): uses given string as separator for tokenizing.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[3] Using internal storage (link): An activity has method you can call to read/write files:</p>
+<ul>
+<li><ol>
+<li>getResources().openRawResource(R.raw.id):  read an input file from res/raw/;<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>getFilesDir(): returns internal directory for your app;<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>getCacheDir(): returns a “temp” directory for scrap files;<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>openFileInput(“name”, mode): opens a file for reading;<br><br></li>
+</ol>
+</li>
+<li><ol start="5">
+<li>openFileOutput(“name”,”mode”): opens a file for writing;<br><br></li>
+</ol>
+</li>
+<li>e.g.<br><br></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Scanner scan = <span class="keyword">new</span> Scanner(getResources().openRawResource(R.raw.hello));</span><br><span class="line">String allText = <span class="string">""</span>;</span><br><span class="line"><span class="keyword">while</span>(scan.hasNextLine())</span><br><span class="line">&#123;</span><br><span class="line">	String line = scan.nextLine();</span><br><span class="line">	allText += line;</span><br><span class="line">&#125;</span><br><span class="line">scan.close();</span><br><span class="line">myTextView.setText(allText);</span><br></pre></td></tr></table></figure>
+<p>[4] External storage permission: we should do something in AndroidManifest.xml file:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">...</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.READ_EXTERNAL_STORAGE"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span> <span class="attr">...</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>[5] Using the external storage:</p>
+<ul>
+<li><ol>
+<li>getExternalFileDir(“name”): returns a “private” external directory for your app with the given name;<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Environment.getExternalStoragePublicDirectory(name): returns a public directory for common files like photos, music, etc. The methods above return File objects so the Scanner, BufferedReader and PrintStream to read/write files can be used.<br><br></li>
+</ol>
+</li>
+</ul>
+<hr>
+<p><br></p>
+<h2 id="Lecture-05-Intents"><a href="#Lecture-05-Intents" class="headerlink" title="Lecture 05: Intents:"></a>Lecture 05: Intents:</h2><h3 id="1-Multiple-activities"><a href="#1-Multiple-activities" class="headerlink" title="1. Multiple activities:"></a>1. Multiple activities:</h3><p>[1]. app activities changing, activity A can launch activity B in response to an event.</p>
+<p>[2]. Adding an activity: click the “app” at left and New an empty new activity. (creates a new .XML file in res/layouts; creates a new .java class in src/java; adds information to AndroidManifest.xml about the activity)</p>
+<p>[3]. Activities in Manifest:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">...</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">application</span> <span class="attr">...</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span></span></span><br><span class="line"><span class="tag">				  <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span></span><br><span class="line"><span class="tag">				  <span class="attr">...</span></span></span><br><span class="line">		&lt;/activity&gt;</span><br><span class="line">		<span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span></span></span><br><span class="line"><span class="tag">				  <span class="attr">android:label</span>=<span class="string">"@string/second_app_name"</span></span></span><br><span class="line"><span class="tag">				  <span class="attr">...</span></span></span><br><span class="line">		&lt;/activity&gt;</span><br><span class="line">	<span class="tag">&lt;/<span class="name">application</span> <span class="attr">...</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span> <span class="attr">...</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><em>p.s. Adding the first activity should include the intent.</em></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".StartMenuActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>[4] Connecting activities: intents: an object representing a desired action; (use the bridge between activities, for one to invoke another. The activity can be  in  the same app or in a different app. can store extra to pass as “parameters” to that activity. Second activity can “return” information back to the caller if needed.)</p>
+<p>[5] Uses of Intents:</p>
+<ul>
+<li><ol>
+<li>to start an activity from another activity in the same app: e.g. Activity1 launches Activity2.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>to start a service: seen later; a service is a long-running app with no GUI. system services include camera, phone dialer, music player, …<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>to broadcast a message to another app to service: other apps can listen and respond to messages.<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>types of intents:<br><br><ul>
+<li>explicit: Names a particular activity to launch(“run Activity2”)<br><br></li>
+<li>implicit: Describes task to perform; one of many apps could be potentially handled. (“launch web browser”)<br><br></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p>[6] Creating an Intent:</p>
+<ul>
+<li><ol>
+<li>create an Intent object and call the Activity:<br><br></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, ActivityName.class);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol start="2">
+<li>If we want to put any parameters: (it stores extra data as key/value pairs like Map);<br><br></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, ActivityName.class);</span><br><span class="line">intent.putExtra(<span class="string">"name"</span>, value);</span><br><span class="line">intent.putExtra(<span class="string">"name"</span>, value);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol start="3">
+<li>How to recieve the message:</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = getIntent();</span><br><span class="line">String extra = intent.getStringExtra(<span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+<p>[5] Write into file: The file in raw folder under the res is not writible. We need to first copy the fixed raw text file.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PrintStream output = <span class="keyword">new</span> PrintStream(openFileOutput(<span class="string">"out.txt"</span>,MODE_PRIVATE));</span><br><span class="line">output.println(<span class="string">"Something to say."</span>);</span><br><span class="line">output.close();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>This will rewrite the text file as default, We need to add MODE_APPEND after MODE_PRIVATE.<br><br></li>
+</ul>
+<p>[6] Return to the parent activity. We cannot call up by each other for the stack increasing we need to backup.</p>
+<ul>
+<li>e.g.<br><br></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">myOnClick</span><span class="params">(View view)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">	intent.putExtra(<span class="string">"name"</span>, value);</span><br><span class="line">	setResult(Result_OK, intent);</span><br><span class="line">	finish();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>[7] Activity returns with or without waiting:</p>
+<ul>
+<li><ol>
+<li>startActivityForResult vs startActivity;<br><br><br>We need to pass unique ID number to represent the action being performed. THe call to start… will not wait; it will return immediately.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>onActivityResult:<br><br><br>will be called when the second activity is done. Like the method of finally in try catch. Corresponding to the startActivityForResult.</li>
+</ol>
+</li>
+</ul>
+<p><br></p>
+<hr>
+<p><br></p>
+<h2 id="Lecture-06-Activity-Lifecycle"><a href="#Lecture-06-Activity-Lifecycle" class="headerlink" title="Lecture 06. Activity Lifecycle:"></a>Lecture 06. Activity Lifecycle:</h2><h3 id="1-Activity-state"><a href="#1-Activity-state" class="headerlink" title="1. Activity state:"></a>1. Activity state:</h3><p>[1] state:</p>
+<ul>
+<li><ol>
+<li>starting: in process of loading up, but not fully loaded;<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>running: Done loading and now visible on the screen;<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>paused: Partially obscured or out of focus, but not shut down;<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>stopped: No longer active, but still in the device’s active memory;<br><br></li>
+</ol>
+</li>
+<li><ol start="5">
+<li>destroyed: Shut down and no longer currently loaded in memory.<br><br><br>[2] Transition between these states are reoresented by events that you can listen to in your activity code:</li>
+</ol>
+</li>
+</ul>
+<p><em>p.s. These methods are inherited from the Activity class.</em></p>
+<p>[3] If we jump between activities, the onPause/onResume will be called; If we jump between two apps, the onStop/onStart will be called;  If app loaded or unloaded from memory, the onDestroy/onCreate will be called. (setTraceLifeCycle(true);)</p>
+<p>[4] onCreate method: called as activity is being initialized.</p>
+<ul>
+<li><ol>
+<li>creates and sets up the activity object.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>load any static resources like images, layouts, set up menus etc.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>after it runs, the Activity object exists.<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>think of this as the “constructor” of the activity<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[5] onPause and onResume: called when another activity in same app pops up over your current activity. May be temporary, or on way to termination.</p>
+<ul>
+<li><ol>
+<li>stop animations or other actions that consume CPU.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>commit unsaved changes(e.g. draft email)<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>release system resources that affect battery life.<br><br></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">super</span>.onPause();			<span class="comment">// always call super</span></span><br><span class="line">	<span class="keyword">if</span>(myConnection != <span class="keyword">null</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		myConnection.close;		<span class="comment">// release resources</span></span><br><span class="line">		myConnection = <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>p.s. Use the LogCat system for logging messages when your app changes states.</em></p>
+<ul>
+<li><ol>
+<li>analogous to println debugging for Android apps;<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>appears in the LogCat console in Androud Studio;<br><br></li>
+</ol>
+</li>
+<li>e.g.<br><br></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">super</span>.onPause();</span><br><span class="line">	Log.v(<span class="string">"testing"</span>, <span class="string">"onPause was called!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>[6] onStop: Called when activity is no longer running. Use chose another app from Recent Apps window. User starts a different activity in your app. User receives a phone call while in your app.</p>
+<ul>
+<li><ol>
+<li>onPause is always called before onStop.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>onStop performs heavy-duty shutdown tasks like writing to a database.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[7] onStart and on Restart:</p>
+<p>onStart: called every time the  activiy begins; onRestart: called when activity was stopped but is started again later. (uncommon, reopen the resources that the onStop closed)</p>
+<p>[8] onDestory: called when your entire app is being shut diwn and unloaded from memory. (not be suggested for the short gap to process the method)</p>
+<ul>
+<li><ol>
+<li>Unpredictable exactly when/if it will be called.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Can be called whenever the system wants to reclaim the memory used by your aoo.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Generally favor onPause or onStop because they are called in a predictabe and timely manner.<br><br></li>
+</ol>
+</li>
+<li>e.g. finish() -&gt; call onDestroy.<br><br></li>
+</ul>
+<p>[9] Instance state: Current state of an activity. (which boxes are checked, any text typed into text boxes, values of any private fields)</p>
+<p>[7] Lost activity state: several actions can cause your activity’s state to be lost: when you go from one activity to another and back, within same app. When you launch another app and then come back. When you rotate the device’s orientation from portrait to landscape…</p>
+<p>[8] Handling rotation</p>
+<h3 id="2-MediaPlayer-and-audio-playing"><a href="#2-MediaPlayer-and-audio-playing" class="headerlink" title="2. MediaPlayer and audio playing:"></a>2. MediaPlayer and audio playing:</h3><p>[1] Retain the activity’s GUI state on rotation is to set the configChanges attribute of the activity in AndroidManifest.xml.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span></span></span><br><span class="line"><span class="tag">		  <span class="attr">android:configCHanges</span>=<span class="string">"orientation|screenSize"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>[2] onSaveInstanceStace method: When an activity is being destroyed onSaveInstanceState is also called. non-persistent state: Stays for now, but lost on shutdown/reboot.</p>
+<ul>
+<li>Accepts a Bundle parameter storing key/value pairs.<br><br></li>
+<li><ol>
+<li>Bundle is passed back to activity if it is recreated later.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Superclass version saves state of any Views that have an ID.<br><br></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSaveInstanceState</span><span class="params">(Budle outState)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">super</span>.onSaveInstanceState(outState);</span><br><span class="line">	outState.putInt(<span class="string">"name"</span>, value);</span><br><span class="line">	outState.putString(<span class="string">"name"</span>, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>p.s. Standford library:</em></p>
+<ul>
+<li>saveAllFields(bundle): store all fields’s values into bundle;<br><br></li>
+<li>restoreAllFields(bundle): load all fields’ values from bundle;<br><br></li>
+<li>@AutoSaveFields: annotation on top of class to automatically save/restore fields’ values when activity is loaded.<br><br></li>
+<li>@AutoSaveFields will save the outState.putInt… for you.<br><br></li>
+</ul>
+<p>[3] Steps:</p>
+<ul>
+<li><ol>
+<li>Put the sound file like .WAV and .MP3 in the project folder of (res/raw/app/src/main/res/raw)<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>In Java code, refer to audio file as R.raw.filename. (no extension included). Use simple file names with only letters and numbers.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Load and play clips using Android’s MediaPlayer class:<br><br></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MediaPlayer mp = MediaPlayer.create(<span class="keyword">this</span>, R.raw.filename);</span><br><span class="line">mp.start();</span><br></pre></td></tr></table></figure>
+<p><em>p.s. Other methods: stop, pause, isLooping, isPlaying, getCurrentPosition, release, seekTo, setDataSource and setLooping.</em></p>
+<h3 id="3-Preferances"><a href="#3-Preferances" class="headerlink" title="3. Preferances:"></a>3. Preferances:</h3><p>[1] SharedPreferences object can store permanent settings and data for your app. Store key/value pairs similar to a Bundle or Intent. pairs added to SharedPreferences persist after. shutdown/reboot</p>
+<p>[2] Two way to use it:</p>
+<ul>
+<li><ol>
+<li>per-activity (getPreference)<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>per-app (getSharedPreferences)<br><br></li>
+</ol>
+</li>
+</ul>
+<p><em>p.s. Stanford lib: SimplePreferences.</em></p>
+<p>[3] Others:    with(activity), set(“name”, value), getBoolean(“name”), …, contains(“name”), has(“name”) (66 min)</p>
+<p><br></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Author: <a href="https://fangzhu1221.github.io">Fang Zhu</a>
+            <p>Link: <a href="https://fangzhu1221.github.io/2018/06/10/Android-Tutorial-02/">https://fangzhu1221.github.io/2018/06/10/Android-Tutorial-02/</a>
+            <p>Publishing date: <a href="https://fangzhu1221.github.io/2018/06/10/Android-Tutorial-02/">June 10th 2018, 3:20:07</a>
+            <p>Announcement: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">the Creative Commons Attribution-Noncommercial Use 4.0 International License Agreement</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/06/10/Android-Tutorial-01/" title= Android Tutorial 01-introduction and basic components >
+                    <div class="prevTitle">Android Tutorial 01-introduction and basic components</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        // id: "Android Tutorial 02-file, intents and life cycle", // 可选。默认为 location.href
+        owner: 'FangZhu1221',
+        repo: 'FangZhu1221.github.io',
+        oauth: {
+            client_id: '5336d9db2a19449b7271',
+            client_secret: 'f6f5ed2733ae4d80e6c4e8fc3be8cc335301ca24',
+        },
+    })
+    gitment.render('container')
+
+</script>
+
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:jszjzf@hotmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/FangZhu1221" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.facebook.com/fang.zhu.370" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.linkedin.com/in/%E6%96%B9-%E6%9C%B1-6367b1163/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-04-Files"><span class="toc-number">2.</span> <span class="toc-text">Lecture 04: Files:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Spinner-a-drop-down-menu-of-selectable-choices"><span class="toc-number">2.1.</span> <span class="toc-text">1. Spinner: a drop down menu of selectable choices;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-File-and-Storage"><span class="toc-number">2.2.</span> <span class="toc-text">2.  File and Storage:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-05-Intents"><span class="toc-number">3.</span> <span class="toc-text">Lecture 05: Intents:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Multiple-activities"><span class="toc-number">3.1.</span> <span class="toc-text">1. Multiple activities:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-06-Activity-Lifecycle"><span class="toc-number">4.</span> <span class="toc-text">Lecture 06. Activity Lifecycle:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Activity-state"><span class="toc-number">4.1.</span> <span class="toc-text">1. Activity state:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-MediaPlayer-and-audio-playing"><span class="toc-number">4.2.</span> <span class="toc-text">2. MediaPlayer and audio playing:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Preferances"><span class="toc-number">4.3.</span> <span class="toc-text">3. Preferances:</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 6
+        <!-- search  -->
+        </div>
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Android-Tutorial-02/" >Android Tutorial 02-file, intents and life cycle</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Java-Tutorial-03/" >Java Tutorial 03-Exception and Synchronization</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Android-Tutorial-01/" >Android Tutorial 01-introduction and basic components</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Java-Tutorial-02/" >Java Tutorial 02-class</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/09</span><a class="archive-post-title" href= "/2018/06/09/Java-Tutorial-01/" >Java Tutorial 01-basic gramma</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/2018/06/08/StartWithHexo/" >Start with Hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Java"><span class="iconfont-archer">&#xe606;</span>Java</span>
+    
+        <span class="sidebar-tag-name" data-tags="tutorial"><span class="iconfont-archer">&#xe606;</span>tutorial</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
+    
+        <span class="sidebar-tag-name" data-tags="application"><span class="iconfont-archer">&#xe606;</span>application</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Webpage Design"><span class="iconfont-archer">&#xe606;</span>Webpage Design</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Java"><span class="iconfont-archer">&#xe60a;</span>Java</span>
+    
+        <span class="sidebar-category-name" data-categories="Android-Application-Development"><span class="iconfont-archer">&#xe60a;</span>Android-Application-Development</span>
+    
+        <span class="sidebar-category-name" data-categories="Hexo"><span class="iconfont-archer">&#xe60a;</span>Hexo</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Fang Zhu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    </body>
+</html>
