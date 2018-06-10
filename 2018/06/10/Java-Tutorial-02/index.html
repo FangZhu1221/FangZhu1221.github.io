@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Fang Zhu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Fang Zhu">
+    <meta name="keywords" content="Fang's Blog | Fang Zhu">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Java Tutorial 02-class · Fang&#39;s Blog.</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180604 as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= /css/mobile.css?v=20180604 media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.png" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <link rel="stylesheet" href="https://oindk07nf.qnssl.com/atom-one-dark.css" media="screen" type="text/css">
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search for Posts","hits_empty":"We did not find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}')
+
+            var algolia = {
+                applicationID: 'RAYFW1FY59',
+                apiKey: '61893b83215905941c8282190ff7cd08',
+                indexName: 'FangBlog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Fang&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Java Tutorial 02-class</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Fang's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style=
+
+
+
+
+
+
+
+
+height:50vh;
+
+>
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/images/Java_bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Java Tutorial 02-class
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Java">Java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "tutorial">tutorial</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">1,756</span> / Reading time: <span class="post-count">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/06/10</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js",
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+
+  //iframe automatically changing
+  function iFrameHeight() {
+    var ifm= document.getElementById("iframepage");
+    var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;
+    if(ifm != null && subWeb != null) {
+       ifm.height = subWeb.body.scrollHeight;
+       ifm.width = subWeb.body.scrollWidth;
+    }
+  }
+</script>
+
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <div class="imageAbstract"><br>  <img style="max-width:100%; overflow:hidden" src="/images/JavaFirstPage.png" alt=""><br></div>
+
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract:"></a>Abstract:</h2><p>The lectures here will introduce the basic defination and ways to use the class probably including construct function, inheritaion, interface, abstract class and etc.</p>
+<a id="more"></a>
+<hr>
+<p><br></p>
+<h2 id="Lecture-05-Class-and-object-01"><a href="#Lecture-05-Class-and-object-01" class="headerlink" title="Lecture 05: Class and object 01"></a>Lecture 05: Class and object 01</h2><p><br></p>
+<h3 id="1-Defination"><a href="#1-Defination" class="headerlink" title="1. Defination:"></a>1. Defination:</h3><p>[1] basic definatio of class and object:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> num;</span><br><span class="line">	String color;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		sop(num + <span class="string">", "</span> + color);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Car c = <span class="keyword">new</span> Car();</span><br><span class="line">c.run();</span><br><span class="line">c.color;</span><br><span class="line">c.num;</span><br></pre></td></tr></table></figure>
+<p>[2] member: variable and function.</p>
+<p>[3] Storage: The object is created and stored in the heap, then the data heap will be initialized as null or 0 when being created.</p>
+<p>[4] member variables and local variables:</p>
+<ul>
+<li><ol>
+<li>member variables are defined in the class, which can be visited in side the class; local variables are defined in a function, region ir a statement, valid inside the defination area.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>member variables exist in the object of a class of heap; local variable exists in the function of stack.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>member variables appears with the objects. The local variables appears with the region.</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>member variables</li>
+</ol>
+</li>
+</ul>
+<p>[5] anonymous object: e.g. new Car().run(); -&gt; If we only want to use the function instead of creating the whole object.</p>
+<ul>
+<li><ol>
+<li>Function of a class be used once;</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Being used as transferring parameters; (show(new car()))</li>
+</ol>
+</li>
+</ul>
+<p>[6] Two cases:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo1</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">int</span> x = <span class="number">3</span>;</span><br><span class="line">		show(<span class="number">3</span>);</span><br><span class="line">		System.out.println(<span class="string">"x = "</span> + x);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		x = <span class="number">4</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//x in the show is 4, x in the main is 3, output is 3;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo2</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x = <span class="number">3</span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		Demo2 d = <span class="keyword">new</span> Demo2();</span><br><span class="line">		d.x = <span class="number">9</span>;</span><br><span class="line">		show(d);</span><br><span class="line">		System.out.println(<span class="string">"x = "</span> + d.x);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(Demo2 d)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		d.x = <span class="number">4</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//x is 9 of the object d.</span></span><br></pre></td></tr></table></figure>
+<p>[7] Encapsulation:</p>
+<p>provide function to let others to read or write the private variables in the class:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> age = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	age = a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><br></p>
+<h2 id="Lecture-06-Class-and-object-02"><a href="#Lecture-06-Class-and-object-02" class="headerlink" title="Lecture 06: Class and object 02"></a>Lecture 06: Class and object 02</h2><p><br></p>
+<h3 id="1-Construct-function"><a href="#1-Construct-function" class="headerlink" title="1. Construct function:"></a>1. Construct function:</h3><p>[1] The same name with class name; no return value;</p>
+<p>[2] For one object, construct function can only be used once.</p>
+<p>[3] this:</p>
+<pre><code>condition 1: local variable has the same name with member variable. &quot;this&quot; means the pointer to the object who use this -&gt; member variable. Actually, this is hidden when use the each member variable.
+
+condition 2: &quot;this&quot; can be used to help communicate among construct function: this(x) -&gt; one construct function can use another construct function. First execute the other construct function(must exist in the first line) then mine, else error may happen.
+</code></pre><p>[4] static:</p>
+<ul>
+<li><ol>
+<li>Make the varibale/function to be shared by all of the object.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Make the varibale/function to be shared by the class.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>The static varibale/function exists with the appearance of class.</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>Static function can only use the static member varibale/function. Non-static can visit all.</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>“this” and “super” keyword can not be used. (this.x is changed by the className.x)</li>
+</ol>
+</li>
+<li><ol start="6">
+<li>main function is static.</li>
+</ol>
+</li>
+<li><ol start="7">
+<li>When to use static. Keep the variable as a constant without change in class;</li>
+</ol>
+</li>
+<li><ol start="8">
+<li>static region(static{}), This part is executed when the first time the class is built.</li>
+</ol>
+</li>
+<li><ol start="9">
+<li>Construct region({} in class) can be used to initialized each objects of the class.</li>
+</ol>
+</li>
+</ul>
+<hr>
+<p><br></p>
+<h2 id="Lecture-07-Class-and-object-03"><a href="#Lecture-07-Class-and-object-03" class="headerlink" title="Lecture 07: Class and object 03"></a>Lecture 07: Class and object 03</h2><p><br></p>
+<h3 id="1-Makeup-for-class"><a href="#1-Makeup-for-class" class="headerlink" title="1. Makeup for class:"></a>1. Makeup for class:</h3><p>[1] If there are more than  we need to javac each of the class.</p>
+<p>[2] Expression: single example design:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Single</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Single s = <span class="keyword">new</span> Single();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Single</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single <span class="title">getInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> s;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Single</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Single s = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Single</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single <span class="title">getInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(s == <span class="keyword">null</span>)</span><br><span class="line">			s = <span class="keyword">new</span> Single();</span><br><span class="line">		<span class="keyword">return</span> s;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-Inherit"><a href="#2-Inherit" class="headerlink" title="2. Inherit:"></a>2. Inherit:</h3><p>[1] e.g. class Student extends Person{};</p>
+<p>[2] single inherit and multiple inherit. (C++ has multiple inherit, but java cannot)</p>
+<ul>
+<li><ol>
+<li>single inherit: one child has one parent; multiple inherit: one child has multiple parent.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>problem with multiple inherit: if In the two parent two function with the same name may cause uncertainty.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>If child has the variable, we do not search its parent (override), if local area contains the variable, we do not need to search the member variables. “this” is used to seperate the local and member variable. “super” is used to seperate the child and parent variable.</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>child cannot get the private varaible/function from its parent.</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>Create the child class’s object, then build its parent object. (there is a super() hidden in child class)</li>
+</ol>
+</li>
+<li><ol start="6">
+<li>Override: child’s priority should be equal to or over than parent priority. (default priority &lt; public) Static can only override or be overrided by static.</li>
+</ol>
+</li>
+<li><ol start="7">
+<li>Example: show(){//update; super.show();} -&gt; use super to extend parent’s function.</li>
+</ol>
+</li>
+</ul>
+<hr>
+<p><br></p>
+<h2 id="Lecture-08-Class-and-object-04"><a href="#Lecture-08-Class-and-object-04" class="headerlink" title="Lecture 08: Class and object 04"></a>Lecture 08: Class and object 04</h2><p><br></p>
+<h3 id="1-Makeup-for-class-1"><a href="#1-Makeup-for-class-1" class="headerlink" title="1. Makeup for class:"></a>1. Makeup for class:</h3><p>[1] In the child class, there is a hidden super() to construct the parent first.</p>
+<p>[2] If we have this, then we do not need super, because the this will will use the default construct function, then the super in the default construct function will build the parent construct function.</p>
+<p>[3] Every class extends from the object(root).</p>
+<p>[4] When a object is built, the construct function is built first, then comes the other initialization, no matter the location of the construct function.</p>
+<p>[5] When a child object is built and the parent and child class contains the function with the same name and parameters, the construct function in its parent class will first search the function in child class. Because this is a child object.</p>
+<h3 id="2-final-keyword"><a href="#2-final-keyword" class="headerlink" title="2. final keyword:"></a>2. final keyword:</h3><p>[1] If we want to use the method in its parent, while there is a function with the same name in child class, the function in parent will be banned.</p>
+<p>[2] final keyword will prevent child class extends the function.</p>
+<p>[3] final can use for function, variable and class which will not be inherited.</p>
+<p>[4] If the member is decorated by final, we usually use public static final to solid the variable.</p>
+<h3 id="3-Abstract-class"><a href="#3-Abstract-class" class="headerlink" title="3. Abstract class:"></a>3. Abstract class:</h3><p>[1] Both the class name and its member should be decorated by abstract.</p>
+<p>[2] abstract class cannot be built (e.g. new Parent()).</p>
+<p>[3] abstract class must has child class.</p>
+<p>[4] abstract has construct function for child class; abstract can be empty; abstract class cannot be decorated by private, static, final; abstract class can include abstract function and normal function.</p>
+<h3 id="4-Interface"><a href="#4-Interface" class="headerlink" title="4. Interface:"></a>4. Interface:</h3><p>[1] When the function of a abstract class are all abstract, we can use the keyword interface to represent this function.</p>
+<p>[2] Substitude class by interface.</p>
+<p>[3] Member of interface:</p>
+<ul>
+<li><ol>
+<li>global variable: public static final.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>abstract function: public abstract.  </li>
+</ol>
+</li>
+<li><ol start="3">
+<li>The variable and function can be initialized as above if we do not give enough decoration.</li>
+</ol>
+</li>
+</ul>
+<p>[4] The implement class must override all of the abstract function in the interface, or the class is abstract class which needs child to realize the other abstract functions.</p>
+<p>[5] On function an implement multiple interface. If two interface has the same function, one function in the class will implement all of them.</p>
+<p>[6] Extenstion with inheritation and implement.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Q</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test2</span> <span class="keyword">extends</span> <span class="title">Q</span> <span class="keyword">implements</span> <span class="title">A</span>,<span class="title">B</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>[7] interfaces can be parent &amp; child relationship among themselves, and they can be multiple inherit. Because there is not function implements.</p>
+<hr>
+<p><br></p>
+<h2 id="Lecture-09-Class-and-object-05"><a href="#Lecture-09-Class-and-object-05" class="headerlink" title="Lecture 09: Class and object 05"></a>Lecture 09: Class and object 05</h2><p><br></p>
+<h3 id="1-Polymorphism："><a href="#1-Polymorphism：" class="headerlink" title="1. Polymorphism："></a>1. Polymorphism：</h3><p>[1] improve the class: Animal a = new Cat(); a is a class from Cat to Animal, the function of Animal can be used but special function of Cat cannot be used. It is used to restrict the special implement of function. Afterwards if we still need to use the special function, we need to downgrade the object: Cat c = (Cat) a; However we cannot convert an parent object into child object.</p>
+<p>[2] instanceof: a instanceof Cat -&gt; used to judge the class/interface specific type. a instanceof parent, a instanceof child, to be more specific. In order to avoid the case like (Cat c = (Cat) a).</p>
+<p>[3] Override only happen in member function, but not happen in member variables.</p>
+<ul>
+<li><ol>
+<li>Member variables: Compiling and Excuting type follow the left type.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Member function: Compiling follows the left, while excuting follows the right.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Static function: Because Static belongs to class not object, thus; Compiling and Excuting type follow the left type.</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-Inner-class"><a href="#2-Inner-class" class="headerlink" title="2. Inner class:"></a>2. Inner class:</h3><p>[1] Expression: Outer$Inner.class.</p>
+<p>[2] Inside class can directly visit outside member, while the outside class need to build object to visit inside member.</p>
+<p>[3] Other outside class visit the inside member: Outer.Inner in = new Outer.new Inner(); If the inside class is private, the outer other class cannot visit the inside class.</p>
+<p>[4] static class inner(): The inner appears when the outer class is built. Then the inner() class is like a outer class. Then Outer.Inner in = new Outer.Inner(); The outer object does not need to be built. (If the member function in the inner class is static then the inner class should be static either).</p>
+<p>[5] Inner class has the reference to outer class: Outer.this.</p>
+<p>[6] Inner class can be put in the local area: like inside the function of Outer class. If the function want to use the function inside the inner class, it needs to build object to realize this problem. If the inner class need to use the local variable of the function outside, then the variable outside needs to decorated by final. (include the variable in the function “()”)</p>
+<p>[7] Inner class should be static if the member function of the outer class is static and it wants to build the inner class.</p>
+<h3 id="Anonymous-inner-class"><a href="#Anonymous-inner-class" class="headerlink" title="Anonymous inner class:"></a>Anonymous inner class:</h3><p>[1] The inner class must extends or implements a outer class or interface.</p>
+<p>[2] As usual, the number of functions in the abstract class should be smaller than or equal to 3.</p>
+<p>[3] Difference between Object obj = new Object() and new Object() -&gt; The first one build the Object, while the second is converted into the anonymous class.</p>
+<p><br></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Author: <a href="https://fangzhu1221.github.io">Fang Zhu</a>
+            <p>Link: <a href="https://fangzhu1221.github.io/2018/06/10/Java-Tutorial-02/">https://fangzhu1221.github.io/2018/06/10/Java-Tutorial-02/</a>
+            <p>Publishing date: <a href="https://fangzhu1221.github.io/2018/06/10/Java-Tutorial-02/">June 10th 2018, 11:10:49</a>
+            <p>Announcement: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">the Creative Commons Attribution-Noncommercial Use 4.0 International License Agreement</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/06/09/Java-Tutorial-01/" title= Java Tutorial 01-basic gramma >
+                    <div class="prevTitle">Java Tutorial 01-basic gramma</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        // id: "Java Tutorial 02-class", // 可选。默认为 location.href
+        owner: 'FangZhu1221',
+        repo: 'FangZhu1221.github.io',
+        oauth: {
+            client_id: '5336d9db2a19449b7271',
+            client_secret: 'f6f5ed2733ae4d80e6c4e8fc3be8cc335301ca24',
+        },
+    })
+    gitment.render('container')
+
+</script>
+
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:jszjzf@hotmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/FangZhu1221" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.facebook.com/fang.zhu.370" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.linkedin.com/in/%E6%96%B9-%E6%9C%B1-6367b1163/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-05-Class-and-object-01"><span class="toc-number">2.</span> <span class="toc-text">Lecture 05: Class and object 01</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Defination"><span class="toc-number">2.1.</span> <span class="toc-text">1. Defination:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-06-Class-and-object-02"><span class="toc-number">3.</span> <span class="toc-text">Lecture 06: Class and object 02</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Construct-function"><span class="toc-number">3.1.</span> <span class="toc-text">1. Construct function:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-07-Class-and-object-03"><span class="toc-number">4.</span> <span class="toc-text">Lecture 07: Class and object 03</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Makeup-for-class"><span class="toc-number">4.1.</span> <span class="toc-text">1. Makeup for class:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Inherit"><span class="toc-number">4.2.</span> <span class="toc-text">2. Inherit:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-08-Class-and-object-04"><span class="toc-number">5.</span> <span class="toc-text">Lecture 08: Class and object 04</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Makeup-for-class-1"><span class="toc-number">5.1.</span> <span class="toc-text">1. Makeup for class:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-final-keyword"><span class="toc-number">5.2.</span> <span class="toc-text">2. final keyword:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Abstract-class"><span class="toc-number">5.3.</span> <span class="toc-text">3. Abstract class:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Interface"><span class="toc-number">5.4.</span> <span class="toc-text">4. Interface:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-09-Class-and-object-05"><span class="toc-number">6.</span> <span class="toc-text">Lecture 09: Class and object 05</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Polymorphism："><span class="toc-number">6.1.</span> <span class="toc-text">1. Polymorphism：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Inner-class"><span class="toc-number">6.2.</span> <span class="toc-text">2. Inner class:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Anonymous-inner-class"><span class="toc-number">6.3.</span> <span class="toc-text">Anonymous inner class:</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 3
+        <!-- search  -->
+        </div>
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Java-Tutorial-02/" >Java Tutorial 02-class</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/09</span><a class="archive-post-title" href= "/2018/06/09/Java-Tutorial-01/" >Java Tutorial 01-basic gramma</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/2018/06/08/StartWithHexo/" >Start with Hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Java"><span class="iconfont-archer">&#xe606;</span>Java</span>
+    
+        <span class="sidebar-tag-name" data-tags="tutorial"><span class="iconfont-archer">&#xe606;</span>tutorial</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Webpage Design"><span class="iconfont-archer">&#xe606;</span>Webpage Design</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Java"><span class="iconfont-archer">&#xe60a;</span>Java</span>
+    
+        <span class="sidebar-category-name" data-categories="Hexo"><span class="iconfont-archer">&#xe60a;</span>Hexo</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Fang Zhu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    </body>
+</html>
