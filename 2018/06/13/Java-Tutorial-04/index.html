@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Fang Zhu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Fang Zhu">
+    <meta name="keywords" content="Fang's Blog | Fang Zhu">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Java Tutorial 04-String, List, Set and Map · Fang&#39;s Blog.</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180604 as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= /css/mobile.css?v=20180604 media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.png" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <link rel="stylesheet" href="https://oindk07nf.qnssl.com/atom-one-dark.css" media="screen" type="text/css">
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search for Posts","hits_empty":"We did not find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}')
+
+            var algolia = {
+                applicationID: 'RAYFW1FY59',
+                apiKey: '61893b83215905941c8282190ff7cd08',
+                indexName: 'FangBlog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Fang&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Java Tutorial 04-String, List, Set and Map</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Fang's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style=
+
+
+
+
+
+
+
+
+height:50vh;
+
+>
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/images/Java_bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Java Tutorial 04-String, List, Set and Map
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Java">Java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "tutorial">tutorial</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">3,378</span> / Reading time: <span class="post-count">21 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/06/13</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js",
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+
+  //iframe automatically changing
+  function iFrameHeight() {
+    var ifm= document.getElementById("iframepage");
+    var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;
+    if(ifm != null && subWeb != null) {
+       ifm.height = subWeb.body.scrollHeight;
+       ifm.width = subWeb.body.scrollWidth;
+    }
+  }
+</script>
+
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <div class="imageAbstract"><br>  <img style="max-width:100%; overflow:hidden" src="/images/JavaFirstPage.png" alt=""><br></div>
+
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract:"></a>Abstract:</h2><p>This part will introduce the common Collections API, including String, List, Set and Map. Detail defination and methods will be introduced first, then a conclusion will be set in the end.</p>
+<a id="more"></a>
+<hr>
+<p><br></p>
+<h2 id="Common-API-01-String-and-Scanner"><a href="#Common-API-01-String-and-Scanner" class="headerlink" title="Common API 01: String and Scanner:"></a>Common API 01: String and Scanner:</h2><h3 id="1-Scanner"><a href="#1-Scanner" class="headerlink" title="1. Scanner:"></a>1. Scanner:</h3><p>[1] import java.util.Scanner;</p>
+<p>[2] Function: Input information from the template:</p>
+<p>Scanner sc = new Scanner(System.in);//set system.in as input.<br>System.out.println(“Please input a String: “);<br>String a = sc.nextline();//print the input string into the string buffer a.<br>System.out.printlin(“s:” + s);</p>
+<h3 id="2-String"><a href="#2-String" class="headerlink" title="2. String:"></a>2. String:</h3><p>[1] Do not need to import;</p>
+<p>[2] Describe a string.</p>
+<p>[3] Construct function: String(String original); String(char[] value); String(char[] value; int index, int count);</p>
+<ul>
+<li><ol>
+<li>String s1 = new String(“Hello”);<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>char[] ch = [‘H’,’e’,’l’,’l’,’o’]; String s2 = new String(ch);<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>String s3 = new String(ch,1,3); //Start with index 1, lengh 3.<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>String s4 = “Hello”;<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[4] No.4 above is the direct string transmission, while the No.1, NO.2 and No.3 are the reference string transmission.</p>
+<p>[5] Method functions:</p>
+<ul>
+<li><ol>
+<li>boolean equals(Object obj): judge whether the two string data inside are the same. (Whatever they are built directly or by construct function)<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>boolean equalsIgnoreCase(String str): judge whether the two string data inside are the same. (ignoring upper or lower case)<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>boolean startsWith(String str): judge whether the String starts with str string.<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>boolean endsWith(String str): judge whether the String ends with str string.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[6] functions about String:</p>
+<ul>
+<li><ol>
+<li>int length(): str.length() -&gt; int;<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>char charAt(int index): get the char of pointed index;<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>int indexOf(String str): get the index of char which is first met.<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>String substring(int start)/String substring(int start,int end): cut the string from the “start” index to the end/ to the given index “end”.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[7] Functions for converting to string:</p>
+<ul>
+<li><ol>
+<li>char[] toCharArray(): str.toCharArray() -&gt; char[];<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>String toLowerCase();<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>String toUpperCase()<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[8] Other functions:</p>
+<ul>
+<li><ol>
+<li>String trim(): reduce the “space” on the two side;<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>String[] split(String str): String s = “aa,bb,cc”; String[] strArray = s.split(“,”);<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>If a String want to add number as its member: String s = “”; ;int x = 0; s += x; (s += “,”;)<br><br></li>
+</ol>
+</li>
+</ul>
+<h3 id="3-StringBuilder"><a href="#3-StringBuilder" class="headerlink" title="3. StringBuilder:"></a>3. StringBuilder:</h3><p>[1] Do not need to import;</p>
+<p>[2] Describe a dynamic changing string while String is static unchanged. (Reason: “+=” to make up new string need too much static buffer occupying large space in cache)</p>
+<p>[3] Construct function: StringBuilder(): StringBuilder sb = new StringBuilder();</p>
+<p>[4] Method function:</p>
+<ul>
+<li><ol>
+<li>public int capacity(): return the current size of given storage the string buffer.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>public int length(): return the current size of exact stored the string buffer.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>public StringBuilder append(any type): add new element into the string buffer. (e.g. sb.append(“Hello”).append(“ world “).append(2018).append(‘!’);)<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>public StringBuilder reverse(): Reverse the whole buffer.<br><br></li>
+</ol>
+</li>
+<li><ol start="5">
+<li>public StringBuilder insert(int offset, char c): Insert a char at index “offset”.<br><br></li>
+</ol>
+</li>
+<li>6.public StringBuilder delete(int start, int end): delete the stringbuilder with the part from start to end. Return the new StringBuilder after deletion.<br><br></li>
+<li><ol start="7">
+<li>public StringBuilder deleteCharAt(int index): delete the char of the index and return.<br><br></li>
+</ol>
+</li>
+<li><ol start="8">
+<li>public StringBuilder replace(int start, int end, String str);<br><br></li>
+</ol>
+</li>
+<li><ol start="9">
+<li>public void setLength(int length);/ public void setCharAt(int index, char ch);<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[5] Transferring from the StringBuilder and String:</p>
+<ul>
+<li><ol>
+<li>public String toString(): Sb.toString();<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>StringBuilder(String str);<br><br></li>
+</ol>
+</li>
+</ul>
+<hr>
+<p><br></p>
+<h2 id="Common-API-02-Interger"><a href="#Common-API-02-Interger" class="headerlink" title="Common API 02: Interger:"></a>Common API 02: Interger:</h2><h3 id="1-Definition"><a href="#1-Definition" class="headerlink" title="1. Definition:"></a>1. Definition:</h3><p>[1] Description： packed the int.</p>
+<p>[2] Construct function: Integer(int value); Integer(String s);(Use String parameter value as int value).</p>
+<p>[3] Functions:</p>
+<ul>
+<li><ol>
+<li>int bitCount(int i): return binary complement.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>byte byteValue(): return byte value of Integer. (intValue, longValue…)<br><br></li>
+</ol>
+</li>
+<li>3.compareTo(Integer anotherInteger): compare the two Integer.<br><br></li>
+<li><ol start="4">
+<li>parseInt(String s): change the string into decimal int.<br><br></li>
+</ol>
+</li>
+<li><ol start="5">
+<li>parseInt(String s, int radix): change string into radix(10,2,8,16…) int;<br><br></li>
+</ol>
+</li>
+<li><ol start="6">
+<li>Integer.toBinaryString(int i)/.toOctalString(int i)/.toHexString(int i)<br><br></li>
+</ol>
+</li>
+<li><ol start="7">
+<li>reverse(int i);<br><br></li>
+</ol>
+</li>
+<li><ol start="8">
+<li>valueOf(int i)/(String s)/(String s, int radix)<br><br></li>
+</ol>
+</li>
+</ul>
+<hr>
+<p><br></p>
+<h2 id="Common-API-03-IO"><a href="#Common-API-03-IO" class="headerlink" title="Common API 03: IO:"></a>Common API 03: IO:</h2><h3 id="1-FileReader-and-FileWriter"><a href="#1-FileReader-and-FileWriter" class="headerlink" title="1. FileReader and FileWriter:"></a>1. FileReader and FileWriter:</h3><p>[1] Description: IO stream is used to help data transmitting through devices.</p>
+<p>[2] import java.io: (e.g. java.io.FileWriter/java.io.IOException)</p>
+<p>[3] FileWriter class:</p>
+<ul>
+<li><ol>
+<li>Construct function: FileWriter(String filename): (“file name is the absolute path (“d:\a.txt”)”) FileWriter(String filename, boolean j); In default condition j os false, if j is true, then it means that we want to write after instead of over write the file.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Functions:<br><br></li>
+</ol>
+</li>
+<li>e.g.<br><br></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"d:\\a.txt"</span>);</span><br><span class="line"></span><br><span class="line">fw.write(<span class="string">"Hello!"</span>);</span><br><span class="line"></span><br><span class="line">fw.flush();</span><br><span class="line"></span><br><span class="line">fw.close();</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol>
+<li>flush(); flash the cache distriction into the file, the IO stream can still be used.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>close(); first flash the cach distriction into the file than inform the system to release the resource, then close the usage of the IO stream.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>write: void write(String str); void write(String str, int index, int len); void write(int ch); void write(char[] chs); void write(char[] chs, int index, int len); (fw.write(97); == fw.write(‘a’); Only the String exsists in the the stream.) fw.write(“\r\n”); -&gt; end of the line.<br><br></li>
+</ol>
+</li>
+</ul>
+<p><em>p.s. windows(“\r\n”); linux(“\n”); mac(“\r”);</em></p>
+<p><em>p.s. need to through IOException in the main.</em></p>
+<p>[4] FileReader class:</p>
+<ul>
+<li><ol>
+<li>Construct function: FileReader(String filename);<br><br></li>
+</ol>
+</li>
+<li>e.g.<br><br></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">""</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> ch = fr.read();</span><br><span class="line"></span><br><span class="line">fr.close();</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol start="2">
+<li>fr.read(): read a char in each time.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>close();<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[5] Copy file:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">"FileWriterDemo.java"</span>);</span><br><span class="line"></span><br><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"Copy.java"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> ch;</span><br><span class="line"><span class="keyword">while</span>((ch=fr.read())!=-<span class="number">1</span>) &#123;</span><br><span class="line">    fw.write(ch);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fw.close();</span><br><span class="line">fr.close();</span><br></pre></td></tr></table></figure>
+<h3 id="BufferedReader-and-BufferWriter"><a href="#BufferedReader-and-BufferWriter" class="headerlink" title="BufferedReader and BufferWriter:"></a>BufferedReader and BufferWriter:</h3><p>[1] Desciption: another way to write efficiently.</p>
+<p>[2] import java.io.BufferedReader/ import java.io.BufferedWriter.</p>
+<p>[3] Construct function: BufferedReader(FileReader fr); (BufferedReader br = new BufferedReader(new FileReader(“FileWriterDemo.java”));) So does the BufferedWriter.</p>
+<p>[4] Function:</p>
+<ul>
+<li><ol>
+<li>String readLine(): read a line at a time.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>void newLine(): write a endline char;<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>void write(): can write a String without endline, requiring a newLine() at the end of the line.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[5] Copy:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(<span class="string">"FileWriterDemo.java"</span>));</span><br><span class="line">BufferedWriter bw = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> FileWriter(<span class="string">"Copy.java"</span>));</span><br><span class="line"></span><br><span class="line">String line;</span><br><span class="line"><span class="keyword">while</span>((line=br.readLine())!=<span class="keyword">null</span>) &#123;</span><br><span class="line">    bw.write(line);</span><br><span class="line">    bw.newLine();</span><br><span class="line">    bw.flush();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bw.close();</span><br><span class="line">br.close();</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<hr>
+<p><br></p>
+<h2 id="Common-API-04-Collection"><a href="#Common-API-04-Collection" class="headerlink" title="Common API 04: Collection"></a>Common API 04: Collection</h2><h3 id="1-Collection"><a href="#1-Collection" class="headerlink" title="1. Collection:"></a>1. Collection:</h3><p>[1] Includes several data structure.</p>
+<p>[2] Construct function: Collection c = new Collection()/new ArrayList()/…;</p>
+<p>[3] Functions:</p>
+<ul>
+<li><ol>
+<li>boolean add(Object o);<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>boolean remove(Object o);<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>int size();<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>boolean isEmpty();<br><br></li>
+</ol>
+</li>
+<li><ol start="5">
+<li>boolean contains(Object o);<br><br></li>
+</ol>
+</li>
+<li><ol start="6">
+<li>boolean containsAll(Collection c);<br><br></li>
+</ol>
+</li>
+<li><ol start="7">
+<li>boolean addAll(Collection c);<br><br></li>
+</ol>
+</li>
+<li><ol start="8">
+<li>void clear(): clear all.<br><br></li>
+</ol>
+</li>
+<li><ol start="9">
+<li>a.removeAll(Collection c); remove the element of the collection a that also appears in the collection c. return void.<br><br></li>
+</ol>
+</li>
+<li><ol start="10">
+<li>a.retainAll(Collection c). remove the element of the collection that doesnot appears in the collection c. return void.<br><br></li>
+</ol>
+</li>
+<li><ol start="11">
+<li>Iterator iterator():<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[4] Output: e.g. “[abc1, cdf, 123]”</p>
+<p>[5] Iterator:</p>
+<ul>
+<li><ol>
+<li>e.g.<br><br></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Collection c = <span class="keyword">new</span></span><br><span class="line">Iterator it = c.iterator();</span><br><span class="line">it.next(): <span class="keyword">return</span> the next element.</span><br><span class="line">it.hasNext(): <span class="keyword">return</span> <span class="keyword">true</span> or not</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(Iterator it = c.iterator(); it.hasNext(); )</span><br><span class="line">&#123;  </span><br><span class="line">　　		Object o = it.next();  </span><br><span class="line">　　 	<span class="comment">//do something  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<ul>
+<li><p>The implements of Collection of ArrayList as an example realize the iterator function through inner class:<br><br></p>
+</li>
+<li><ol>
+<li>Inner class<br><br></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Itr</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">//do something  </span></span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+<ul>
+<li><ol start="2">
+<li>Implement<br><br></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Itr();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>[6] Children of Collection:</p>
+<ul>
+<li><ol>
+<li>List(re/se): ArrayList(us), Linkedlist(ns), Vector(s);<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Set(nre/nse): HashSet(ns)(LinkedHashSet), SortSet(se)(TreeSet);<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Map(k: nre/nse; v: re/nse): Hashtable(s), HashMap(ns)(WeakHashMap), SortMap(TreeMap)(s);<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>Queue(se): PriorityQueue(ns/se);<br><br></li>
+</ol>
+</li>
+</ul>
+<p><em>p.s.</em></p>
+<ul>
+<li><ol>
+<li>re: repeat element permitted; nre: no repeat element permitted.<br><br></li>
+</ol>
+<ul>
+<li><ol start="2">
+<li>s: synchronized; us: unsynchronized; ns: non-synchronized(synchronized unsafe)<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>se: in sequence; nse: random order;<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>k: key; v: value;<br><br></li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><br></p>
+<h2 id="Common-API-05-List"><a href="#Common-API-05-List" class="headerlink" title="Common API 05: List:"></a>Common API 05: List:</h2><h3 id="1-ArrayList"><a href="#1-ArrayList" class="headerlink" title="1. ArrayList:"></a>1. ArrayList:</h3><p>[1] import java.util.ArrayList;</p>
+<p>[2] Definition: ArrayList<e>: E can be any type or class.</e></p>
+<p>[3] Function:</p>
+<ul>
+<li><ol>
+<li>construct function: ArrayList();<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Other functions:<br><br></li>
+</ol>
+<ul>
+<li><ol>
+<li>public boolean add(E e);<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>public void add(int index, E element);<br><br></li>
+</ol>
+</li>
+</ul>
+</li>
+<li>e.g.<br><br></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;String&gt; array = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">array.add(<span class="string">"Hello"</span>);</span><br><span class="line"></span><br><span class="line">array.add(<span class="number">1</span>, <span class="string">"world!"</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Each index store 1 element which is a string, add(index,element) can help the new element to insert into the old arrayList not substitude the old element on the index.<br><br><ul>
+<li><ol start="3">
+<li>public E get(int index): return the element on the index;<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>public int size(): return the number of element of the arraylist.<br><br></li>
+</ol>
+</li>
+<li><ol start="5">
+<li>public boolean remove(Object o): remove the pointed element, delete the element situate at the position and return whether success. If there are two same object, delete the object first met from the index 0.<br><br></li>
+</ol>
+</li>
+<li><ol start="6">
+<li>public boolean remove(int index): delete the element situate at the position and return whether success.<br><br></li>
+</ol>
+</li>
+<li><ol start="7">
+<li>public E set(int index, E element): substitude the element of the index place with given new element.<br><br></li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<p><em>p.s. public boolean startWith(Object o): check whether the String start with the array object.</em></p>
+<h3 id="2-LinkedList"><a href="#2-LinkedList" class="headerlink" title="2. LinkedList:"></a>2. LinkedList:</h3><p>[1] import java.util.LinkedList;</p>
+<p>[2] Definition: LinkedList<e>: E can be any type or class.</e></p>
+<ul>
+<li>e.g.<br><br></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LinkedList&lt;String&gt; linkedList = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"><span class="comment">//element should be in order;</span></span><br><span class="line"><span class="comment">//FILO: [5, 4, 3, 2, 1] --removeFirst--&gt; [4, 3, 2, 1]</span></span><br></pre></td></tr></table></figure>
+<p>[3] Functions:</p>
+<ul>
+<li><ol>
+<li>add: boolean add(E e); void addFirst(E e); void addLast(E e); void add(int index, E element);<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>remove: boolean remove(Object o); E remove(int index); E removeFirst(); E removeLast(); boolean removeFirstOccurrence(Object o); boolean removeLastOccurrence(Object o);<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>get: E get(int index); E getFirst(); E getLast();<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>void push(E e) == addFirst; E pop == removeFirst; E poll: search and remove the first element. If the linked list is null, then poll return null, pop will produce exceptions.<br><br></li>
+</ol>
+</li>
+<li><ol start="5">
+<li>peek: Get the element: E peek() == E peekFirst(); E peekLast();<br><br></li>
+</ol>
+</li>
+<li><ol start="6">
+<li>offer: Inset an element into the linkedlist: boolean offer(E e) == offerLast; boolean offerFirst(E e) == addFirst; boolean offerLast(E e) == addLast;<br><br></li>
+</ol>
+</li>
+<li><ol start="7">
+<li>contains(E element); set(int index,E element); subList(int start, int end); element(): number of elements.<br><br></li>
+</ol>
+</li>
+</ul>
+<h3 id="3-Vector"><a href="#3-Vector" class="headerlink" title="3. Vector:"></a>3. Vector:</h3><p>[1] Construct functions: Vector v1 = new Vector(); Integer integer1 = new Integer(1); v1.addElement(integer1);</p>
+<p>[2] Description: synchronized version of arrayList:</p>
+<ul>
+<li>e.g.<br><br></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Vector v1 = <span class="keyword">new</span> Vector();</span><br><span class="line">Integer integer1 = <span class="keyword">new</span> Integer(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">Vector v2 = <span class="keyword">new</span> Vector&lt;Interger&gt;();</span><br><span class="line"></span><br><span class="line">v1.addElement(integer1);</span><br><span class="line">v2.add(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>[3] Add: public final synchronized void addElement(Object obj); public final synchronized void setElementAt(Object obj,int index)(Overwrite); public final synchronized void insertElementAt(Object obj,int index); void add(Object o);</p>
+<p>[4] Remove: public final synchronized void removeElement(Object obj); (Delete the element the same with obj that first we first meet.) public final synchronized void removeAllElement(); public fianl synchronized void removeElementAt(int index);</p>
+<p>[6] Search: public final int indexOf(Object obj); (If not exists, return -1) public final synchronized int indexOf(Object obj,int index); public final int lastindexOf(Object obj); public final synchornized int lastIndex(Object obj,int index); public final synchornized firstElement(); public final synchornized Object lastElement();</p>
+<p>[7] Others: public final int size(); public final synchronized void setSize(int newsize); public final synchronized Enumeration elements();</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printSet</span><span class="params">(List hs)</span> </span>&#123;</span><br><span class="line">    Iterator iterator = hs.iterator();</span><br><span class="line">    <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">        System.out.println(iterator.next());</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="comment">//better than Enumeration;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printSet2</span><span class="params">(Vector&lt;String&gt; hs)</span> </span>&#123;</span><br><span class="line">    Enumeration&lt;String&gt; elements = hs.elements();</span><br><span class="line">    <span class="keyword">while</span> (elements.hasMoreElements()) &#123;</span><br><span class="line">        System.out.println(elements.nextElement());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<hr>
+<p><br></p>
+<h2 id="Common-API-06-Set"><a href="#Common-API-06-Set" class="headerlink" title="Common API 06: Set"></a>Common API 06: Set</h2><p>Set is a kind of collection which is inordered, certain and mutually different.</p>
+<h3 id="1-HashSet"><a href="#1-HashSet" class="headerlink" title="1. HashSet:"></a>1. HashSet:</h3><p>[1] Introduction: HashSet inherits from the AbstractSet which implements the Set interface. The HashSet source code is simple and small using the HashMap internally. The data is stored as the key in the HashMap. The values are the same default value.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set hs = <span class="keyword">new</span> HashSet();</span><br></pre></td></tr></table></figure>
+<p>[2] Important methods:</p>
+<ul>
+<li><ol>
+<li>add(E e): add an element. Only the different element can be added because of the certainty of the Set, then we can use the equals to make sure.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>remove(Object o): remove the object o from this set.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>boolean contains(Object o): to check whether the element exists in this HashSet.<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>iterator():<br><br></li>
+</ol>
+</li>
+<li><ol start="5">
+<li>Others(): size(), isEmpty(), contains(), clear() and etc. These methods are the same as HashMap. There are no method of set() and get();<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[3] LinkedHashSet, the accessOrder which is the parameter in HashSet is set to be false, which means the LinkedHashSet should follow the sequence while inserting.</p>
+<p><br></p>
+<p>[4] code example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;String&gt; hs = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">hs.add(<span class="keyword">new</span> String(<span class="string">"First element"</span>));</span><br><span class="line">hs.add(<span class="keyword">new</span> String(<span class="string">"Second element"</span>));</span><br><span class="line">hs.add(<span class="keyword">new</span> String(<span class="string">"False element"</span>));</span><br><span class="line">hs.add(<span class="keyword">new</span> String(<span class="string">"Third element"</span>));</span><br><span class="line">hs.remove(<span class="keyword">new</span> String(<span class="string">"False element"</span>));</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"Exist faluse element: "</span> + hs.contains(<span class="keyword">new</span> String(<span class="string">"False element"</span>)));</span><br><span class="line"></span><br><span class="line">Iterator&lt;String&gt; it = hs.iterator();</span><br><span class="line"><span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">  String str = it.next();</span><br><span class="line">  System.out.println(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-TreeSet"><a href="#2-TreeSet" class="headerlink" title="2. TreeSet:"></a>2. TreeSet:</h3><p>[1] Introduction: The Tree map implements the SortedSet interface meaning the sequential of the TreeSet, which use the source code of TreeMap. The sequence of the TreeSet can be in order or reverse order, while the order is the about the keyword not the inserting time. The Red Black Tree is way how TreeSet stored.</p>
+<p>[2] Important method:</p>
+<ul>
+<li><ol>
+<li>add(E e): add an element. Only the different element can be added because of the certainty of the Set, then we can use the equals to make sure.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>remove(Object o): remove the object o from this set.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>boolean contains(Object o): to check whether the element exists in this HashSet.<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>iterator():<br><br></li>
+</ol>
+</li>
+<li><ol start="5">
+<li>Comparator comparator(): If the order is special made, then the order plan in the Comparator will be return. If the order is natural sequence, then return null.<br><br></li>
+</ol>
+</li>
+<li><ol start="6">
+<li>Object first(): return the first element in the set.<br><br></li>
+</ol>
+</li>
+<li><ol start="7">
+<li>Object last(): return the last element in the set.<br><br></li>
+</ol>
+</li>
+<li><ol start="8">
+<li>Object lower(Object o): return the element before the pointed object o. Object higer(Object o): the vice versa.<br><br></li>
+</ol>
+</li>
+<li><ol start="9">
+<li>SortedSet subSet(Object fromElement, Object toElement): This will return the subset of the Treeset from the object from the beginning element(included) to the end element(not included).<br><br></li>
+</ol>
+</li>
+<li><ol start="10">
+<li>SortedSet headSet(Object toElement): return the subset of the Set, which is set up with the the element smaller than toElement. SortedSet tailSet(Object fromElement): the vice versa.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[3] The order in the treeset:</p>
+<ul>
+<li><ol>
+<li>Natural sequence: The Tree set will apply the compareTo() function to compare the element and make order from small to big. Because the compareTo() method may bring the ClassCaseException, so if we add more than one element and the treeset will apply the compareTo() method, then we need to try catch the exception.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Custom sequence: we need to implement the comparable interface to custom our own sequence. The example code is as follow refered by the link: <a href="https://blog.csdn.net/wxc880924/article/details/52624513" target="_blank" rel="noopener">https://blog.csdn.net/wxc880924/article/details/52624513</a>.</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">R2</span> <span class="keyword">implements</span> <span class="title">Comparable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> size;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">R2</span><span class="params">( <span class="keyword">int</span> size)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.size = size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        R2 r = (R2)o;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.size &gt; r.size ? -<span class="number">1</span> :<span class="keyword">this</span>.size &lt; r.size ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">	    <span class="keyword">if</span>(<span class="keyword">this</span> == obj)&#123;</span><br><span class="line">	        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	    &#125;</span><br><span class="line"></span><br><span class="line">	    <span class="keyword">if</span>(obj != <span class="keyword">null</span> &amp;&amp; obj.getClass() == z.class)&#123;</span><br><span class="line">	        R2 r = (R2)obj;</span><br><span class="line">	        <span class="keyword">return</span> r.size == <span class="keyword">this</span>.size;</span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="keyword">return</span> <span class="keyword">false</span>;   </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        TreeSet t6 = <span class="keyword">new</span> TreeSet();</span><br><span class="line">        t6.add(<span class="keyword">new</span> R2(<span class="number">6</span>));</span><br><span class="line">        t6.add(<span class="keyword">new</span> R2(<span class="number">6</span>));</span><br><span class="line">        t6.add(<span class="keyword">new</span> R2(-<span class="number">6</span>));</span><br><span class="line">        t6.add(<span class="keyword">new</span> R2(<span class="number">1</span>));</span><br><span class="line">        System.out.println(t6);</span><br><span class="line">        R2 r1 = (R2) t6.first();</span><br><span class="line">        System.out.println(<span class="string">"r1.first() = "</span>+r1.size);<span class="comment">//set.first() = 6</span></span><br><span class="line">        R2 r2 = (R2) t6.last();</span><br><span class="line">        System.out.println(<span class="string">"r2.last() = "</span>+r2.size);<span class="comment">//set.last() = -6</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<hr>
+<p><br></p>
+<h2 id="Common-API-07-Map"><a href="#Common-API-07-Map" class="headerlink" title="Common API 07: Map"></a>Common API 07: Map</h2><p>[1] Different from the List and Set, Map is not inherited of Collection;</p>
+<p>[2] Basic Method:</p>
+<ul>
+<li><ol>
+<li>Initialization: Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>map.put(“key”,”value”);<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Element map.get(“key”);<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>map.remove(“key”);<br><br></li>
+</ol>
+</li>
+<li><ol start="5">
+<li>map.clear();<br><br></li>
+</ol>
+</li>
+<li><ol start="6">
+<li>Others: containsKey()/containsValue(), putAll(Map t), entrySet()/keySet();<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[3] Traverse the Map. (reference link: <a href="https://www.cnblogs.com/lzq198754/p/5780165.html" target="_blank" rel="noopener">https://www.cnblogs.com/lzq198754/p/5780165.html</a>.)</p>
+<p><em>p.s. Enforced For Loop: foreach</em></p>
+<p><em>structure: for(Element type ele : name of Array/Iterable obj){}</em></p>
+<p><em>e.g.</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> [] array = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i : array)&#123;</span><br><span class="line">　　System.out.println(i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">List list = <span class="keyword">new</span> ArrayList();</span><br><span class="line">list.add(<span class="number">1</span>);</span><br><span class="line">list.add(<span class="number">2</span>);</span><br><span class="line">list.add(<span class="number">3</span>);</span><br><span class="line"><span class="keyword">for</span>(Object obj : list)&#123;</span><br><span class="line">    System.out.println(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>There are four ways to do this:</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (String key : map.keySet()) &#123;</span><br><span class="line">    System.out.println(key + <span class="string">" ："</span> + map.get(key));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (Map.Entry&lt;String, String&gt; entry : map.entrySet()) &#123;</span><br><span class="line">    System.out.println(entry.getKey() + <span class="string">" ："</span> + entry.getValue());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Iterator&lt;String&gt; iterator = map.keySet().iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">    String key = iterator.next();</span><br><span class="line">    System.out.println(key + <span class="string">"　："</span> + map.get(key));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Iterator&lt;Map.Entry&lt;String, String&gt;&gt; iterator = map.entrySet().iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">    Map.Entry&lt;String, String&gt; entry = iterator.next();</span><br><span class="line">    System.out.println(entry.getKey() + <span class="string">"　："</span> + entry.getValue());</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Iterator is faster than the foreach.</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-HashMap"><a href="#1-HashMap" class="headerlink" title="1. HashMap:"></a>1. HashMap:</h3><p>[1] Introduction: The most commonly used Map, which stores data based on the key’s HashCode value, can get its value directly based on the key, and has a fast access speed. A HashMap allows only one record to have a key of Null (more than one will be overwritten); multiple records are allowed to have a value of Null. Unsynchronized.</p>
+<h3 id="2-HashTable"><a href="#2-HashTable" class="headerlink" title="2. HashTable:"></a>2. HashTable:</h3><p>[1] Introduction: Similar to HashMap, the difference is that the values of key and value are not allowed to be null; it supports thread synchronization, which means that only one thread can write a Hashtable at any one time, and this also causes Hashtale to be slower when writing.</p>
+<h3 id="3-TreeMap"><a href="#3-TreeMap" class="headerlink" title="3. TreeMap:"></a>3. TreeMap:</h3><p>[1] Introduction: It can sort the records it holds according to the key. The default is to sort in ascending order. You can also specify the sorting comparator. When using Iterator to traverse the TreeMap, the records obtained are sorted. TreeMap does not allow the value of key to be null. Unsynchronized.</p>
+<h2 id="Conclusion-of-List-Set-and-Map"><a href="#Conclusion-of-List-Set-and-Map" class="headerlink" title="Conclusion of List, Set and Map:"></a>Conclusion of List, Set and Map:</h2><p>[1] Difference among them:</p>
+<ul>
+<li><ol>
+<li>List and Set inherited from Collection, while Map not.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>List: elements are in order, duplicate copy is allowed. Set: elements are not in order, duplicate copy is not allowed.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Synchronized: Vector, HashTable and StringBuffer; Non-synchronized: LinkedList、ArrayList, HashSet, HashMap and StringBuilder.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[2] ArrayList vs LinkedList:</p>
+<ul>
+<li><ol>
+<li>ArrayList has dynamic data structure, the data address is stored in together, then good for search, while spending longer time for insertion and deletion.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>LinkedList: On the contrary.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[3] ArrayList vs Vector:</p>
+<ul>
+<li><ol>
+<li>Vector is sychronized, while brings lower efficiency, comparing to the ArrayList.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>ArrayList: On the contrary.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[4] HashSet vs TreeSet:</p>
+<ul>
+<li><ol>
+<li>TreeSet is stored in Red Black tree, so it is ordered and it does not support null element.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>HashSet is stored by HashCode() method, then the data is not in order, and only one null element can be inserted.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>HashSet is more efficent than TreeSet except the sequential problem.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[5] HashTable and HashMap:</p>
+<ul>
+<li><ol>
+<li>HashMap is not synchronized safe, allowing one null element, higher efficency and include contain() method.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>HashTable is synchronized safe, while null element is not allowed, and efficeny is not high enough. There is no contain() method, and the method containsValue() and containsKey() substitude it.<br><br></li>
+</ol>
+</li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Author: <a href="https://fangzhu1221.github.io">Fang Zhu</a>
+            <p>Link: <a href="https://fangzhu1221.github.io/2018/06/13/Java-Tutorial-04/">https://fangzhu1221.github.io/2018/06/13/Java-Tutorial-04/</a>
+            <p>Publishing date: <a href="https://fangzhu1221.github.io/2018/06/13/Java-Tutorial-04/">June 13th 2018, 4:54:25</a>
+            <p>Announcement: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">the Creative Commons Attribution-Noncommercial Use 4.0 International License Agreement</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/06/10/Android-Tutorial-02/" title= Android Tutorial 02-file, intents and life cycle >
+                    <div class="prevTitle">Android Tutorial 02-file, intents and life cycle</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        // id: "Java Tutorial 04-String, List, Set and Map", // 可选。默认为 location.href
+        id: "Wed Jun 13 2018 16:54:25 GMT-0400",
+        owner: 'FangZhu1221',
+        repo: 'FangZhu1221.github.io',
+        oauth: {
+            client_id: '5336d9db2a19449b7271',
+            client_secret: 'f6f5ed2733ae4d80e6c4e8fc3be8cc335301ca24',
+        },
+    })
+    gitment.render('container')
+
+</script>
+
+
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:jszjzf@hotmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/FangZhu1221" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.facebook.com/fang.zhu.370" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.linkedin.com/in/%E6%96%B9-%E6%9C%B1-6367b1163/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-API-01-String-and-Scanner"><span class="toc-number">2.</span> <span class="toc-text">Common API 01: String and Scanner:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Scanner"><span class="toc-number">2.1.</span> <span class="toc-text">1. Scanner:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-String"><span class="toc-number">2.2.</span> <span class="toc-text">2. String:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-StringBuilder"><span class="toc-number">2.3.</span> <span class="toc-text">3. StringBuilder:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-API-02-Interger"><span class="toc-number">3.</span> <span class="toc-text">Common API 02: Interger:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Definition"><span class="toc-number">3.1.</span> <span class="toc-text">1. Definition:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-API-03-IO"><span class="toc-number">4.</span> <span class="toc-text">Common API 03: IO:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-FileReader-and-FileWriter"><span class="toc-number">4.1.</span> <span class="toc-text">1. FileReader and FileWriter:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BufferedReader-and-BufferWriter"><span class="toc-number">4.2.</span> <span class="toc-text">BufferedReader and BufferWriter:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-API-04-Collection"><span class="toc-number">5.</span> <span class="toc-text">Common API 04: Collection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Collection"><span class="toc-number">5.1.</span> <span class="toc-text">1. Collection:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-API-05-List"><span class="toc-number">6.</span> <span class="toc-text">Common API 05: List:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ArrayList"><span class="toc-number">6.1.</span> <span class="toc-text">1. ArrayList:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-LinkedList"><span class="toc-number">6.2.</span> <span class="toc-text">2. LinkedList:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Vector"><span class="toc-number">6.3.</span> <span class="toc-text">3. Vector:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-API-06-Set"><span class="toc-number">7.</span> <span class="toc-text">Common API 06: Set</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-HashSet"><span class="toc-number">7.1.</span> <span class="toc-text">1. HashSet:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-TreeSet"><span class="toc-number">7.2.</span> <span class="toc-text">2. TreeSet:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-API-07-Map"><span class="toc-number">8.</span> <span class="toc-text">Common API 07: Map</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-HashMap"><span class="toc-number">8.1.</span> <span class="toc-text">1. HashMap:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-HashTable"><span class="toc-number">8.2.</span> <span class="toc-text">2. HashTable:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-TreeMap"><span class="toc-number">8.3.</span> <span class="toc-text">3. TreeMap:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion-of-List-Set-and-Map"><span class="toc-number">9.</span> <span class="toc-text">Conclusion of List, Set and Map:</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 7
+        <!-- search  -->
+        </div>
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/2018/06/13/Java-Tutorial-04/" >Java Tutorial 04-String, List, Set and Map</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Android-Tutorial-02/" >Android Tutorial 02-file, intents and life cycle</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Android-Tutorial-01/" >Android Tutorial 01-introduction and basic components</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Java-Tutorial-03/" >Java Tutorial 03-Exception and Synchronization</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2018/06/10/Java-Tutorial-02/" >Java Tutorial 02-class</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/09</span><a class="archive-post-title" href= "/2018/06/09/Java-Tutorial-01/" >Java Tutorial 01-basic gramma</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/2018/06/08/StartWithHexo/" >Start with Hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Java"><span class="iconfont-archer">&#xe606;</span>Java</span>
+    
+        <span class="sidebar-tag-name" data-tags="tutorial"><span class="iconfont-archer">&#xe606;</span>tutorial</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Webpage Design"><span class="iconfont-archer">&#xe606;</span>Webpage Design</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
+    
+        <span class="sidebar-tag-name" data-tags="application"><span class="iconfont-archer">&#xe606;</span>application</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Java"><span class="iconfont-archer">&#xe60a;</span>Java</span>
+    
+        <span class="sidebar-category-name" data-categories="Hexo"><span class="iconfont-archer">&#xe60a;</span>Hexo</span>
+    
+        <span class="sidebar-category-name" data-categories="Android-Application-Development"><span class="iconfont-archer">&#xe60a;</span>Android-Application-Development</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Fang Zhu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    </body>
+</html>
