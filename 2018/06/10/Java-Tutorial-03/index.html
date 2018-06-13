@@ -283,7 +283,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">629</span> / Reading time: <span class="post-count">4 min</span></span>
+                        <span>Word count: <span class="post-count">2,225</span> / Reading time: <span class="post-count">14 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -492,6 +492,245 @@ height:50vh;
 <p><br></p>
 <hr>
 <p><br></p>
+<h2 id="Lecture-11-Object-and-package"><a href="#Lecture-11-Object-and-package" class="headerlink" title="Lecture 11: Object and package"></a>Lecture 11: Object and package</h2><h3 id="1-Function"><a href="#1-Function" class="headerlink" title="1. Function:"></a>1. Function:</h3><p>[1] Construct function: Object();</p>
+<p>[2] Other function, every class has these function: clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait(long timeout), wait(long timeout, int nanos).</p>
+<h3 id="3-boolean-equals-Object-obj-To-judge-whether-the-two-class-is-equal-or-not-x-a-equals-b"><a href="#3-boolean-equals-Object-obj-To-judge-whether-the-two-class-is-equal-or-not-x-a-equals-b" class="headerlink" title="3. boolean equals(Object obj): To judge whether the two class is equal or not. (x = a.equals(b);)"></a>3. boolean equals(Object obj): To judge whether the two class is equal or not. (x = a.equals(b);)</h3><p>[1] Through comparing the address between two objects. (p.s. native -&gt; get local function from the operating system)</p>
+<p>[2] We can define the equals function (keep the line of the function name and parameters unchanged) through overriding.</p>
+<p>[3] Because the type of obj is changed upward to be parent Object losing the special characteristics of child class.</p>
+<p>[4] If the new built obj is not the class we want, we need help avoid this problem.</p>
+<h3 id="4-int-hashCode-return-the-hex-hashcode-into-int-and-return"><a href="#4-int-hashCode-return-the-hex-hashcode-into-int-and-return" class="headerlink" title="4. int hashCode(): return the hex hashcode into int and return."></a>4. int hashCode(): return the hex hashcode into int and return.</h3><p>[1] We might rebuilt the hashcode.</p>
+<h3 id="5-Class-getClass-return-the-class-of-excuting-Class-c-new-Class-29-class-Class-name-method-construct-field-to-help-get-the-class-The-function-includes-getConstructors-getMethod-getField-getName…"><a href="#5-Class-getClass-return-the-class-of-excuting-Class-c-new-Class-29-class-Class-name-method-construct-field-to-help-get-the-class-The-function-includes-getConstructors-getMethod-getField-getName…" class="headerlink" title="5. Class getClass(): return the class of excuting.(Class c = new Class(29);): class Class{name,method,construct,field} to help get the class. The function includes getConstructors, getMethod, getField, getName…"></a>5. Class getClass(): return the class of excuting.(Class c = new Class(29);): class Class{name,method,construct,field} to help get the class. The function includes getConstructors, getMethod, getField, getName…</h3><h3 id="6-String-toString-getClass-getName-‘-’-Integer-toHexString-hashCode"><a href="#6-String-toString-getClass-getName-‘-’-Integer-toHexString-hashCode" class="headerlink" title="6. String toString(): getClass().getName() + ‘@’ + Integer.toHexString(hashCode());"></a>6. String toString(): getClass().getName() + ‘@’ + Integer.toHexString(hashCode());</h3><h3 id="7-Package-administrate-the-class-file-packageName-className"><a href="#7-Package-administrate-the-class-file-packageName-className" class="headerlink" title="7. Package: administrate the class file. (packageName.className)"></a>7. Package: administrate the class file. (packageName.className)</h3><p>[1] package class locates under the folder of package name in the operating system. (Not the .java file)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac -d . Demo3.java3</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java mypack.Demo3</span><br></pre></td></tr></table></figure>
+<p><em>p.s. “-d” is used to build folder of the package, “.” is the place to build.</em></p>
+<p>[2] If use other package class. We need to first complile the other package then self.</p>
+<p>[3] In package file, the used other package should be added with package name.</p>
+<p>[4] The other package class should under the following path or the classpath.</p>
+<p>[5] The used class and its member should be decorated by public.</p>
+<p>[6] If the other package class is extended from other package class, we need to compile that first. “protect” appears in this condition because the “public” will let parent class and child class to use the method function unlimited only if any of the object is built. While “protect” only permits the child class’s object to use the parent method function not the parent class’s object.</p>
+<p>[7] Priority table:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>public</th>
+<th>protected</th>
+<th>default</th>
+<th>private</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>same class</td>
+<td>ok</td>
+<td>ok</td>
+<td>ok</td>
+<td>ok</td>
+</tr>
+<tr>
+<td>same package</td>
+<td>ok</td>
+<td>ok</td>
+<td>ok</td>
+<td>-</td>
+</tr>
+<tr>
+<td>child class</td>
+<td>ok</td>
+<td>ok</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>diff package</td>
+<td>ok</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="8-package-import-shortage-the-package-name-e-g-import-packa-DemoA-then-we-can-use-DemoA-instead-of-packa-DemoA"><a href="#8-package-import-shortage-the-package-name-e-g-import-packa-DemoA-then-we-can-use-DemoA-instead-of-packa-DemoA" class="headerlink" title="8. package import: shortage the package name. (e.g. import packa.DemoA, then we can use DemoA instead of packa.DemoA)"></a>8. package import: shortage the package name. (e.g. import packa.DemoA, then we can use DemoA instead of packa.DemoA)</h3><p>[1] import pack.* -&gt; import any class under pack. (no include package under pack)</p>
+<h3 id="9-Java’s-“-jar”"><a href="#9-Java’s-“-jar”" class="headerlink" title="9. Java’s “.jar”:"></a>9. Java’s “.jar”:</h3><p>[1] “c” create jar file, “f” give the name of the jar file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jar -cf package.jar &lt;the folder needs to be jarred&gt;</span><br></pre></td></tr></table></figure>
+<p><em>p.s.</em></p>
+<ul>
+<li><ol>
+<li>“-tvf” check the folder document in the jar file.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>“-xvf” unzip the jar file.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[2] “META-INF” folder is used to stored the information of jar file.</p>
+<p>[3] We can use the pack without unzip the “.jar” file: (./<name>.jar/pack == ./pack) We only need to make the path under the classpath.</name></p>
+<p><br></p>
+<hr>
+<p><br></p>
+<h2 id="Lecture-12-Synchronization"><a href="#Lecture-12-Synchronization" class="headerlink" title="Lecture 12: Synchronization:"></a>Lecture 12: Synchronization:</h2><h3 id="1-Multi-threads-problem-is-the-low-efficient-if-open-too-many-threads"><a href="#1-Multi-threads-problem-is-the-low-efficient-if-open-too-many-threads" class="headerlink" title="1. Multi-threads: problem is the low efficient if open too many threads."></a>1. Multi-threads: problem is the low efficient if open too many threads.</h3><p>[1] JVM has two threads at begining(main thread and trash recycling thread)</p>
+<ul>
+<li><ol>
+<li>finalize() for trash recycling.<br><br></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> <span class="keyword">extends</span> <span class="title">Object</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"OK"</span>);<span class="comment">// if recycle, the function is used</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Demo();</span><br><span class="line">System.gc();<span class="comment">// tell the trash recycle to execute.</span></span><br><span class="line"><span class="keyword">new</span> Demo();</span><br><span class="line">System.out.println(<span class="string">"Hello!"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//----&gt;</span></span><br><span class="line"><span class="comment">//----&gt;Hello!</span></span><br><span class="line"><span class="comment">//----&gt;OK</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>recycle is another thread to deal with the trash. If the jvm is over too early then the finalize executing, the “OK” may not be output.<br><br></li>
+</ul>
+<h3 id="2-Inherit-thread-class"><a href="#2-Inherit-thread-class" class="headerlink" title="2. Inherit thread class"></a>2. Inherit thread class</h3><p>[1] Steps:</p>
+<ul>
+<li><ol>
+<li>define a class inherit thread class;<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>override the run function.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>create thread class’s object.<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>obj.start(): start thread and run the run() function.<br><br></li>
+</ol>
+<p>The aim to create the thread object is to give a way let pointed code and other codes executing simultaneously. Main thread locates at main function, while the other locates at run function. thread.getName() to know the thread. currentThread() return the Thread type.Thread name start with 0, and main. super(name) -&gt; will give the thread self-defined name.</p>
+<p>Each thread has its own stack. Thus the condition like the main function is over while other threads still executing. The runtime exception not stop other threads executing.</p>
+</li>
+</ul>
+<p><em>p.s.</em></p>
+<ul>
+<li><ol>
+<li>Create the object —&gt; start() to run another threads —&gt; stop() to end the thread.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>sleep(time) will freeze the running state after start for several time, wait() will freeze the running state until the notify() is used to wake up the other thread.<br><br></li>
+</ol>
+</li>
+</ul>
+<h3 id="3-Runnable"><a href="#3-Runnable" class="headerlink" title="3. Runnable"></a>3. Runnable</h3><p>[1] Problem with succeeding from Thread: We want to have multi-task instead alternative-task. Another one is that the class has already inherited by a parent. Interface can help deal with the problem.</p>
+<p>[2] Thread class implement the runnable interface. Thread(Runnable target);</p>
+<p>[3] Steps:</p>
+<ul>
+<li><ol>
+<li>Define the Runnable interface;<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Overwrite the run function.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Build object implementing the runnable interface as the parameter to build the class Thread.<br><br></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>Thread obj.start() to activate the run() function.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[4] Advantages:</p>
+<ul>
+<li><ol>
+<li>Explit the run mission out of the limit of the child of thread.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Avoid the possible of multi-inherit.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[5] Thread safe problem:</p>
+<ul>
+<li><ol>
+<li>multi-threads are enterring a shared data.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>When a thread is executing multiple codes, other threads enterring the caculating may cause the problem.<br><br></li>
+</ol>
+</li>
+<li>Solution: We need lock to lock the area. (synchronized region)<br><br></li>
+</ul>
+<h3 id="4-Synchronized"><a href="#4-Synchronized" class="headerlink" title="4. Synchronized"></a>4. Synchronized</h3><p>[1]    Format;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(Object obj)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//code need to be locked.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>p.s. object is a kind of sign.</em></p>
+<p>[2] Problem: efficiency turns to be low.</p>
+<p>[3] Prequisite: Use the same lock, so the object should be the member variable.</p>
+<p>[4] Can use synchronized as decoration of a function also: e.g. public synchronized void add(int num); At this time the function hold the lock. (this())</p>
+<p>[5] Difference between function and region: lock: this and self-defined.</p>
+<p>[6] Static synchronized function:</p>
+<ul>
+<li><ol>
+<li>There is not this in the static function, but the function’s getClass and className.class to get.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>Class cl = t.getClass(); == Class cl = Ticket.class;<br><br></li>
+</ol>
+</li>
+</ul>
+<h3 id="5-wait-and-wake"><a href="#5-wait-and-wake" class="headerlink" title="5. wait and wake:"></a>5. wait and wake:</h3><p>[1] Functions: wait(), notify() and notifyAll(); These functions should be used in the function because these functions should be controled by the look r; Only the lock r can notify the wait of r.</p>
+<ul>
+<li><ol>
+<li>wait(): The thread of wait will be stored in thread pool. Defined in Object. Because, the lock could belongs to any object, so we can do this.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>notify(): wake one of the thread in the pool.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>notifyAll(): wake the threads in the pool.<br><br></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Resource</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	String name;</span><br><span class="line">	<span class="keyword">int</span> age;</span><br><span class="line">	boolen flag = <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">T1</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	Resource r;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">synchronized</span>(r)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span>(!flag)</span><br><span class="line">					r.wait();</span><br><span class="line"></span><br><span class="line">				<span class="comment">//do some thing</span></span><br><span class="line"></span><br><span class="line">				flag = <span class="keyword">false</span>;</span><br><span class="line">				r.notify();</span><br><span class="line">			&#125; <span class="comment">//  thread 1</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">T1</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	Resource r;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">synchronized</span>(r)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span>(flag)</span><br><span class="line">					r.wait();</span><br><span class="line"></span><br><span class="line">				<span class="comment">//do some thing</span></span><br><span class="line"></span><br><span class="line">				flag = <span class="keyword">true</span>;</span><br><span class="line">				r.notify();</span><br><span class="line">			&#125; <span class="comment">//thread 2</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//The two thread running 1 by 1;</span></span><br><span class="line"><span class="comment">//One lock r represent one thread pool.</span></span><br></pre></td></tr></table></figure>
+<p>[2] Require synchronized: wait in lock A, then only notify in lock A can wake it up. obj.wake() and obj.notify().</p>
+<p>[3] If we use wait(), the interruptedException may happens.</p>
+<h3 id="6-wait-and-sleep"><a href="#6-wait-and-sleep" class="headerlink" title="6. wait and sleep:"></a>6. wait and sleep:</h3><p>[1] Difference:</p>
+<ul>
+<li><ol>
+<li>“wait” can have parameter of timeout or not, while “sleep” have to give parameter of timeout.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>The methods of execution priority and lock(monitor) are different while dealing with synchronization problem. “wait” will release the priority and the lock. “Sleep” will release the priority, but not the lock.<br><br></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>“notifyAll” will notify the thread one by one.<br><br></li>
+</ol>
+</li>
+</ul>
+<h3 id="7-termination-of-thread"><a href="#7-termination-of-thread" class="headerlink" title="7. termination of thread:"></a>7. termination of thread:</h3><p>[1] methods:</p>
+<ul>
+<li><ol>
+<li>“stop()” method: Thread.stop will release all of the lock(monitor). Of course it is unsafe.<br><br></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>End of the “run()” method. In the circle function, we need to set the flag of the loop to help end of the thread or set condition to break the circle.<br><br></li>
+</ol>
+</li>
+</ul>
+<p>[2] If the thread is locked then the flag could not be read because of the deadlock. Then we need interrupt being cleared.</p>
+<ul>
+<li><ol>
+<li>“public void interrupt()” release the freeze station and give the priority of cpu back to the thread. Because actually we could not wake up at this moment, so the Interrupt Exception occurs, we need to catch the exception to set the flag to end the loop.<br><br></li>
+</ol>
+</li>
+</ul>
+<h3 id="8-setDaemon-boolean-b-and-join"><a href="#8-setDaemon-boolean-b-and-join" class="headerlink" title="8. setDaemon(boolean b) and join:"></a>8. setDaemon(boolean b) and join:</h3><p>[1] “setDaemon” will annote the current thread as user thread or protected thread. If all of the thread now running is protected thread, then the jvm will terminate. The method should be used before synchronization. (thread.setDaemon(true); then the thread will be over automatically if there is no normal thread left.)</p>
+<p><em>p.s. isDaemon() can check the property of the thread.</em></p>
+<p>[2] “void join()”, wait for the join() ends, need to catch interrupted exception. The main thread will wait until the end of the thread which add thread.join().</p>
+<p>[3] ThreadGroup: If we make a bunch of thread into a thread group, then some method like setDaemon, interrupt and some other methods together.</p>
+<p>[4] yield(): can pause the thread which has already run in a loop, leave the priority to the following thread.</p>
+<p><br></p>
 
     </article>
     <!-- license  -->
@@ -655,7 +894,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-10-Exception"><span class="toc-number">2.</span> <span class="toc-text">Lecture 10: Exception</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Definition-Exception-happens-during-the-execution-time"><span class="toc-number">2.1.</span> <span class="toc-text">1. Definition: Exception happens during the execution time.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Try-catch"><span class="toc-number">2.2.</span> <span class="toc-text">2. Try catch.</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-10-Exception"><span class="toc-number">2.</span> <span class="toc-text">Lecture 10: Exception</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Definition-Exception-happens-during-the-execution-time"><span class="toc-number">2.1.</span> <span class="toc-text">1. Definition: Exception happens during the execution time.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Try-catch"><span class="toc-number">2.2.</span> <span class="toc-text">2. Try catch.</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-11-Object-and-package"><span class="toc-number">3.</span> <span class="toc-text">Lecture 11: Object and package</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Function"><span class="toc-number">3.1.</span> <span class="toc-text">1. Function:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-boolean-equals-Object-obj-To-judge-whether-the-two-class-is-equal-or-not-x-a-equals-b"><span class="toc-number">3.2.</span> <span class="toc-text">3. boolean equals(Object obj): To judge whether the two class is equal or not. (x = a.equals(b);)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-int-hashCode-return-the-hex-hashcode-into-int-and-return"><span class="toc-number">3.3.</span> <span class="toc-text">4. int hashCode(): return the hex hashcode into int and return.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Class-getClass-return-the-class-of-excuting-Class-c-new-Class-29-class-Class-name-method-construct-field-to-help-get-the-class-The-function-includes-getConstructors-getMethod-getField-getName…"><span class="toc-number">3.4.</span> <span class="toc-text">5. Class getClass(): return the class of excuting.(Class c = new Class(29);): class Class{name,method,construct,field} to help get the class. The function includes getConstructors, getMethod, getField, getName…</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-String-toString-getClass-getName-‘-’-Integer-toHexString-hashCode"><span class="toc-number">3.5.</span> <span class="toc-text">6. String toString(): getClass().getName() + ‘@’ + Integer.toHexString(hashCode());</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Package-administrate-the-class-file-packageName-className"><span class="toc-number">3.6.</span> <span class="toc-text">7. Package: administrate the class file. (packageName.className)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-package-import-shortage-the-package-name-e-g-import-packa-DemoA-then-we-can-use-DemoA-instead-of-packa-DemoA"><span class="toc-number">3.7.</span> <span class="toc-text">8. package import: shortage the package name. (e.g. import packa.DemoA, then we can use DemoA instead of packa.DemoA)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-Java’s-“-jar”"><span class="toc-number">3.8.</span> <span class="toc-text">9. Java’s “.jar”:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lecture-12-Synchronization"><span class="toc-number">4.</span> <span class="toc-text">Lecture 12: Synchronization:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Multi-threads-problem-is-the-low-efficient-if-open-too-many-threads"><span class="toc-number">4.1.</span> <span class="toc-text">1. Multi-threads: problem is the low efficient if open too many threads.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Inherit-thread-class"><span class="toc-number">4.2.</span> <span class="toc-text">2. Inherit thread class</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Runnable"><span class="toc-number">4.3.</span> <span class="toc-text">3. Runnable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Synchronized"><span class="toc-number">4.4.</span> <span class="toc-text">4. Synchronized</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-wait-and-wake"><span class="toc-number">4.5.</span> <span class="toc-text">5. wait and wake:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-wait-and-sleep"><span class="toc-number">4.6.</span> <span class="toc-text">6. wait and sleep:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-termination-of-thread"><span class="toc-number">4.7.</span> <span class="toc-text">7. termination of thread:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-setDaemon-boolean-b-and-join"><span class="toc-number">4.8.</span> <span class="toc-text">8. setDaemon(boolean b) and join:</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -668,8 +907,6 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
     
     
     
